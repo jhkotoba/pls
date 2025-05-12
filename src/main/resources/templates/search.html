@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>-</title>
+<link rel="stylesheet" type="text/css" href="/search.css">
+<link rel="stylesheet" type="text/css" href="/toastui-editor.min.css" />
+</head>
+<body>
+	<header>
+	</header>
+	<aside>
+		<div class="panel">
+			<div class="panel-header">
+				<span>🔍 검색 이력</span>
+				<span class="arrow">▶</span>
+			</div>
+			<div class="panel-content">
+				<ul class="history-list">
+					<li>11111111111</li>
+					<li>22222222222</li>
+					<li>33333333333</li>
+				</ul>
+			</div>
+		</div>
+	  
+		<div class="panel">
+			<div class="panel-header">
+				<span>💾 저장 목록 트리</span>
+				<span class="arrow">▶</span>
+			</div>
+			<div class="panel-content">
+				<ul class="tree-list">
+					<li>AAAAA
+						<ul>
+							<li>11111111</li>
+							<li>22222222</li>
+						</ul>
+					</li>
+					<li>BBBBB
+						<ul>
+							<li>11111111</li>
+							<li>22222222</li>
+							<li>33333333</li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</aside>
+	
+	<main>
+		<!-- <section class="search-area">
+			<form id="search-form">
+				<select id="search-select" aria-label="검색 범위 선택">
+					<option value="TC" selected>제목/내용</option>
+					<option value="T">제목</option>
+					<option value="C">내용</option>
+				</select>
+				<input type="text" id="keyword" placeholder="검색어를 입력하세요" aria-label="검색어 입력"/>
+				<button type="button" id="search">검색</button>
+				<button type="button" id="detail-open">등록</button>
+			</form>
+		</section> -->
+		<section>
+			<form id="search-form">
+				<div class="input-area">
+					<select id="search-select" aria-label="검색 범위 선택">
+						<option value="TC" selected>제목/내용</option>
+						<option value="T">제목</option>
+						<option value="C">내용</option>
+					</select>
+					<input type="text" id="keyword" placeholder="검색어를 입력하세요" aria-label="검색어 입력"/>
+					<button type="button" id="search" class="blue">검색</button>
+					<button type="button" id="detail-open" class="white">등록</button>
+				</div>
+			</form>
+		</section>
+		<section class="list-area" aria-label="검색 결과">
+			<ul id="list" class="list">
+				<li>결과 아이템 1</li>
+				<li>결과 아이템 2</li>
+				<li>결과 아이템 3</li>
+			</ul>
+		</section>
+	</main>
+	<footer></footer>
+</body>
+
+<dialog id="detail-popup">
+	<form method="dialog">
+		<div class="input-area">
+			<select id="document-select" aria-label="문서 선택">
+				<option value="1" selected>1</option>
+				<option value="2">2</option>
+			</select>
+			<input type="text" id="title" placeholder="제목을 입력하세요." aria-label="제목 입력"/>
+			<button id="tag-append">태그</button>
+		</div>
+		<div id="editor"></div>
+		<div class="button-area">
+			<button value="close">닫기</button>
+			<button id="detail-save">저장</button>
+		</div>
+	</form>
+</dialog>
+
+<dialog id="document-popup">
+	<form method="dialog">
+		<button value="close">닫기</button>
+		<button id="document-save">저장</button>
+	</form>
+</dialog>
+
+<dialog id="tag-popup">
+	<form method="dialog">
+		<div class="button-area">
+			<button value="close">닫기</button>
+		</div>
+	</form>
+</dialog>
+
+<script type="text/javascript" src="/toastui-editor-all.min.js"></script>
+<script type="text/javascript" src="/search.js"></script>
+</html>
