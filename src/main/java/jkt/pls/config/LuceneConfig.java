@@ -20,7 +20,7 @@ public class LuceneConfig {
 
 	@Bean
     protected Directory luceneDirectory() throws IOException {
-		Path indexPath = Paths.get("./data/lucene-index");
+		Path indexPath = Paths.get("./data/lucene");
 	    return FSDirectory.open(indexPath);
     }
 	
