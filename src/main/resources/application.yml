@@ -1,0 +1,30 @@
+server:
+  port: 17001
+
+spring:
+  application:
+    name: pls
+  r2dbc:
+    url: "r2dbc:h2:file:///./data/localdb?options=DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;MODE=MariaDB;IFEXISTS=FALSE"
+    #url: "r2dbc:h2:mem:///localdb?options=DB_CLOSE_DELAY=-1;MODE=MariaDB;DB_CLOSE_ON_EXIT=FALSE;IFEXISTS=FALSE"
+    username: sa
+    password:
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:sql/schema.sql
+      data-locations:
+        - optional:file:./data/index.sql
+        - optional:file:./data/data-*.sql
+
+logging:
+  level:
+    io:
+      r2dbc:
+        h2: DEBUG
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

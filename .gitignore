@@ -1,9 +1,10 @@
 /target/
+/data/
 
 *.pem
 
 .mvn/wrapper
-*.yml
+
 
 *.class
 *.dll
@@ -52,5 +53,3 @@ local.properties
 .springBeans
 .recommenders/
 /.mvn/
-
-*.sql

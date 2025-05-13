@@ -27,13 +27,4 @@ public class SearchEntity {
 	@Column("TOKEN")
 	private String token; 
 	
-	@Column("POSITION")	
-	private String position; 
-	
-	@Column("TITLE")
-	private String title; 
-	
-	@Column("SAMPLE_CONTENT")
-	private String sampleContent;
-	
 }

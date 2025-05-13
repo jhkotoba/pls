@@ -133,9 +133,17 @@ dtlSave.addEventListener('click', async e => {
 	
 	window.alert('!!');
 	editor.setMarkdown('');
-	dialog.close();
+	dtlPop.close();
 	
 	//editor.getHTML
 	
 	
-})
+});
+
+
+docOpen.addEventListener('click', e => {
+	e.preventDefault();
+	
+	docPop.showModal();
+	
+});

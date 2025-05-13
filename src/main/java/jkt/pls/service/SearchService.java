@@ -18,13 +18,13 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class SearchService {
 	
-	@Value("${custom.document.path}")
-	private String docPath;
+//	@Value("${custom.document.path}")
+//	private String docPath;
 	
 	private final SearchRepository searchRepository;
 	
 	
-	public Flux<SearchEntity> list(SearchRequest request){
+	public Flux<?> list(SearchRequest request){
 		
 		long cnt = 0;
 		System.out.println("SearchService.list");
