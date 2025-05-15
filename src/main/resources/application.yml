@@ -1,6 +1,6 @@
 server:
   port: 17001
-
+  address: 127.0.0.1
 spring:
   application:
     name: pls
