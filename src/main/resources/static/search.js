@@ -16,8 +16,11 @@ const docSave = document.getElementById('document-save');
 
 //
 const dtlPop = document.getElementById('detail-popup');
+
 const docPop = document.getElementById('document-popup');
 
+const dtlInfoOpen = document.getElementById('detail-info-open');
+const dtlInfoPop = document.getElementById('detail-info-popup');
 //
 const tagAped = document.getElementById('tag-append'); 
 const tagPop = document.getElementById('tag-popup'); 
@@ -110,6 +113,11 @@ dtlPop.addEventListener('close', () => {
 tagAped.addEventListener('click', e => {
 	e.preventDefault();
 	tagPop.showModal();
+});
+
+dtlInfoOpen.addEventListener('click', e => {
+	e.preventDefault();
+	dtlInfoPop.showModal();
 });
 
 dtlSave.addEventListener('click', async e => {

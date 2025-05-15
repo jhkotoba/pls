@@ -403,7 +403,7 @@ dialog#detail-popup form > div:last-child button {
 }
 
 
-dialog#detail-popup .input-area button#tag-append {
+dialog#detail-popup .input-area button {
   background-color: #ffffff;
   color: #333333;
 
@@ -528,7 +528,17 @@ dialog#tag-popup .button-area button[value="close"]:hover {
 
 
 
-
+dialog#detail-info-popup {
+  width: 50vw;    /* 화면 가로의 97% */
+  height: 90vh;   /* 화면 세로의 93% */
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
 
 
 
