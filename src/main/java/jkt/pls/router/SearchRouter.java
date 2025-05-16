@@ -1,5 +1,7 @@
 package jkt.pls.router;
 
+import java.util.Map;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
@@ -15,7 +17,8 @@ public class SearchRouter {
 
 	@Bean
 	protected RouterFunction<ServerResponse> form(){
-		return RouterFunctions.route(RequestPredicates.GET("/"), request -> ServerResponse.ok().render("search.html"));
+		return RouterFunctions.route(RequestPredicates.GET("/"), request -> ServerResponse.ok()
+				.render("index.html", Map.of("page", "search")));
 	}
 	
 	@Bean

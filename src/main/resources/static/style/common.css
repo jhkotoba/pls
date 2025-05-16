@@ -1,157 +1,25 @@
-/* CSS Reset 
-모든 요소 및 의사 요소(box‐before, box‐after)에 box-sizing 적용
-기본 margin, padding 제거
-*/
+/* common */
 *,
 *::before,
-*::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+*::after {box-sizing: border-box; margin: 0; padding: 0;}
+body {display: grid; grid-template-areas: "header header" "aside  main" "footer footer"; grid-template-columns: 250px 1fr; grid-template-rows: auto 1fr auto; height: 100vh; font-family: sans-serif;}
+header {grid-area: header; background-color: #f5f5f5; padding: 3px; display: flex; justify-content: flex-end; align-items: center;}
+header .header-link {font-size: 0.85rem; color: #000000; text-decoration: none; padding: 0.25rem 0.5rem; border: 1px solid transparent; border-radius: 4px; transition: background-color 0.2s ease;}
+aside {grid-area: aside; width: 250px; border: 1px solid #ddd; border-radius: 4px; overflow: hidden; font-family: sans-serif;}
+input:focus,select:focus {outline: none; box-shadow: none;}
+select {-webkit-appearance: none; -moz-appearance: none; appearance: none; border: 1px solid #ccc; background-color: #fff; color: #333; padding: 0.5rem 2rem 0.5rem 0.5rem; background-image: url("/image/select-arrow.svg"); background-repeat: no-repeat; background-position: right 0.75rem center; background-size: 10px 6px;}
 
-/* 전체 레이아웃: Grid Container (body)
-header, aside, main, footer 영역 배치
-2컬럼(250px + 1fr) / 3행(auto, 1fr, auto)
-전체 높이 100vh
-*/
-body {
-  display: grid;
-  grid-template-areas:
-    "header header"
-    "aside  main"
-    "footer footer";
-  grid-template-columns: 250px 1fr;
-  grid-template-rows: auto 1fr auto;
-  height: 100vh;
-  font-family: sans-serif;
-}
-
-/* ===================================================================
-   3. Header
-   =================================================================== */
-/* 3. Header 영역 수정 */
-header {
-  grid-area: header;
-  background-color: #f5f5f5;
-  padding: 3px;
-
-  /* 추가: flex로 오른쪽 정렬 */
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-}
-
-/* 등록 링크 스타일 */
-header .header-link {
-  font-size: 0.85rem;      /* 작은 글씨 */
-  color: #000000;           /* 원하는 색으로 조정 */
-  text-decoration: none;    /* 밑줄 제거 */
-  padding: 0.25rem 0.5rem;  /* 클릭 영역 확보 */
-  border: 1px solid transparent;
-  border-radius: 4px;
-  transition: background-color 0.2s ease;
-}
-
-/* ===================================================================
-   4. Sidebar (`aside`) & Accordion Panels
-   - `.panel`: 개별 패널 컨테이너
-   - `.panel-header`: 접기/펼치기 토글
-   - `.panel-content`: 숨김/노출 컨텐츠
-   =================================================================== */
-aside {
-  grid-area: aside;
-  width: 250px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  overflow: hidden;
-  font-family: sans-serif;
-}
-
-/* input, select 의 포커스 outline 제거 */
-input:focus,select:focus {
-  outline: none;
-  box-shadow: none;
-}
-
-/* select 커스터마이징 */
-select {
-  /* 브라우저 기본 스타일 제거 */
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-
-  /* 테두리, 배경, 텍스트 컬러는 기존과 동일하게 유지 */
-  border: 1px solid #ccc;
-  background-color: #fff;
-  color: #333;
-
-  /* 기본 패딩에 오른쪽 여유 추가 (화살표 자리를 위해) */
-  padding: 0.5rem 2rem 0.5rem 0.5rem;
-
-  /* 커스텀 화살표(icon) 삽입*/
-  background-image: url("/select-arrow.svg");
-  background-repeat: no-repeat;
-  background-position: right 0.75rem center;
-  background-size: 10px 6px;
-}
-
-/* 패널 간 구분선 */
-.panel + .panel {
-  border-top: 1px solid #eee;
-}
-
-/* 패널 헤더(토글 버튼) */
-.panel-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.75rem 1rem;
-  background: #f7f7f7;
-  cursor: pointer;
-  user-select: none;
-}
-.panel-header:hover {
-  background: #eaeaea;
-}
-
-/* 화살표 아이콘 회전 트랜지션 */
-.panel .arrow {
-  display: inline-block;
-  transition: transform 0.3s ease;
-}
-
-/* 패널 컨텐츠 기본 숨김 */
-.panel-content {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.3s ease;
-  background: #fff;
-}
-
-/* 리스트 스타일 초기화 */
-.panel-content ul {
-  list-style: none;
-  margin: 0;
-  padding: 0.5rem 1rem;
-}
-
-/* 패널 활성화 시(펼칠 때) */
-.panel.active .panel-content {
-  max-height: 400px; /* 필요에 따라 조정 */
-}
-.panel.active .arrow {
-  transform: rotate(90deg);
-}
-
-/* 패널 내부 리스트 항목 */
-.history-list li,
-.tree-list li {
-  padding: 0.25rem 0;
-}
-.tree-list ul {
-  padding-left: 1rem;
-}
+/* aside */
+.panel + .panel {border-top: 1px solid #eee;}
+.panel-header {display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1rem; background: #f7f7f7; cursor: pointer; user-select: none;}
+.panel-header:hover {background: #eaeaea;}
+.panel .arrow {display: inline-block; transition: transform 0.3s ease;}
+.panel-content {max-height: 0; overflow: hidden; transition: max-height 0.3s ease; background: #fff;}
+.panel-content ul {list-style: none; margin: 0; padding: 0.5rem 1rem;}
+.panel.active .panel-content {max-height: 400px;}
+.panel.active .arrow {transform: rotate(90deg);}
+.history-list li, .tree-list li {padding: 0.25rem 0;}
+.tree-list ul {padding-left: 1rem;}
 
 /* ===================================================================
    5. Main 영역

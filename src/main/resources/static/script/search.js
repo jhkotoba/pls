@@ -8,14 +8,14 @@ const rstList = document.getElementById('list');
 //
 const search = document.getElementById('search');
 //
-const dtlOpen = document.getElementById('detail-open');
-const dtlSave = document.getElementById('detail-save');
+//const dtlOpen = document.getElementById('detail-open');
+//const dtlSave = document.getElementById('detail-save');
 //
 const docOpen = document.getElementById('document-open');
 const docSave = document.getElementById('document-save');
 
 //
-const dtlPop = document.getElementById('detail-popup');
+//const dtlPop = document.getElementById('detail-popup');
 
 const docPop = document.getElementById('document-popup');
 
@@ -26,14 +26,15 @@ const tagAped = document.getElementById('tag-append');
 const tagPop = document.getElementById('tag-popup'); 
 
 
-//
+/*
 const editor = new toastui.Editor({
 	el: document.querySelector('#editor'),
 	previewStyle: 'tab',
 	height: '100%',
 });;
+*/
 
-//
+/*
 dtlPop.openModal = function(p){
 	
 	//let editor = null;
@@ -62,6 +63,7 @@ dtlPop.openModal = function(p){
 	dtlPop.showModal();
 	
 }
+*/
 
 // 
 rstList.addEventListener('click', (e) => {
@@ -82,18 +84,19 @@ search.addEventListener('click', async e => {
 
 
 
-dtlOpen.addEventListener('click', () => dtlPop.openModal({action: 'INSERT'}));
+//dtlOpen.addEventListener('click', () => dtlPop.openModal({action: 'INSERT'}));
 
 	
 
 
 
 // 메뉴 펼치기 접힘 이벤트
-document
+/*document
 	.querySelectorAll('.panel-header')
-	.forEach(header => header.addEventListener('click', () => header.parentElement.classList.toggle('active')));
+	.forEach(header => header.addEventListener('click', () => header.parentElement.classList.toggle('active')));*/
 
 // dialog가 Esc 키로 닫힐 때 발생
+/*
 dtlPop.addEventListener('cancel', () => {
 	
 	// clean
@@ -101,13 +104,16 @@ dtlPop.addEventListener('cancel', () => {
   // console.log('esc');
   // e.preventDefault();  // 닫힘 방지
 });
+*/
 
+/*
 dtlPop.addEventListener('close', () => {
 	
 	// clean
 	
   console.log('close returnValue:', dtlPop.returnValue);
 });
+*/
 
 
 tagAped.addEventListener('click', e => {

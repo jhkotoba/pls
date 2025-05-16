@@ -3,8 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <title>-</title>
-<link rel="stylesheet" type="text/css" href="/search.css">
-<link rel="stylesheet" type="text/css" href="/toastui-editor.min.css" />
+<link rel="stylesheet" type="text/css" href="/style/common.css">
+<link rel="stylesheet" type="text/css" href="/style/toastui-editor.min.css" />
+<script type="text/javascript" src="/script/toastui-editor-all.min.js"></script>
 </head>
 <body>
 	<header>		
@@ -12,8 +13,8 @@
 		|
 		<a id="detail-open" href="#" class="header-link">이슈/정보 등록</a>
 	</header>
-	<aside>
-		<div class="panel">
+	<div th:replace="~{fragments/aside :: aside}">
+		<!-- <div class="panel">
 			<div class="panel-header">
 				<span>🔍 검색 이력</span>
 				<span class="arrow">▶</span>
@@ -49,11 +50,11 @@
 					</li>
 				</ul>
 			</div>
-		</div>
-	</aside>
+		</div> -->
+	</div>
 	
-	<main>
-		<section>
+	<div th:replace="~{pages/search :: search}">
+		<!-- <section>
 			<form id="search-form">
 				<div class="input-area">
 					<lable>프로젝트</lable>
@@ -80,19 +81,21 @@
 				<li>결과 아이템 2</li>
 				<li>결과 아이템 3</li>
 			</ul>
-		</section>
-	</main>
+		</section> -->
+	</div>
 	<footer></footer>
 </body>
 
-<dialog id="detail-popup">
+
+<dialog id="detail-popup" th:insert="~{popup/detail :: detail}"></dialog>
+<!-- <dialog id="detail-popup">
 	<form method="dialog">
 		<div class="input-area">
-			<!-- <select id="document-select" aria-label="문서 선택">
+			<select id="document-select" aria-label="문서 선택">
 				<option value="1" selected>1</option>
 				<option value="2">2</option>
-			</select> -->
-			<!-- <input type="text" id="title" placeholder="제목을 입력하세요." aria-label="제목 입력"/> -->
+			</select>
+			<input type="text" id="title" placeholder="제목을 입력하세요." aria-label="제목 입력"/>
 			
 			<button id="tag-append">태그등록</button>
 			<button id="detail-info-open">상세정보 등록</button>
@@ -103,31 +106,30 @@
 			<button id="detail-save">저장</button>
 		</div>
 	</form>
-</dialog>
+</dialog> -->
 
-<dialog id="detail-info-popup">
-	<form method="dialog">
+<dialog id="detail-info-popup" th:insert="~{popup/detail-info :: detail-info}">
+	<!-- <form method="dialog">
 		<div class="button-area">
 			<button value="close">닫기</button>
 		</div>
-	</form>
+	</form> -->
 </dialog>
 
-<dialog id="tag-popup">
-	<form method="dialog">
+<dialog id="tag-popup" th:insert="~{popup/tag :: tag}">
+	<!-- <form method="dialog">
 		<div class="button-area">
 			<button value="close">닫기</button>
 		</div>
-	</form>
+	</form> -->
 </dialog>
 
-<dialog id="document-popup">
-	<form method="dialog">
+<dialog id="document-popup" th:insert="~{popup/document :: document}">
+	<!-- <form method="dialog">
 		<button value="close">닫기</button>
 		<button id="document-save">저장</button>
-	</form>
+	</form> -->
 </dialog>
 
-<script type="text/javascript" src="/toastui-editor-all.min.js"></script>
-<script type="text/javascript" src="/search.js"></script>
+<script type="text/javascript" src="/script/index.js"></script>
 </html>
