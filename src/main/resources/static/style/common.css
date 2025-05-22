@@ -174,7 +174,6 @@ main {
 
 
 
-/* --------------------------------------------------------------------------------------------------------------------- */
 
 
 
@@ -191,65 +190,25 @@ main {
 
 
 
+dialog {padding: 1.5rem; border: none; border-radius: 4px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);}
+dialog .dialog{position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); border-radius: 8px; padding: 1.5rem; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);}
+dialog::backdrop {background: rgba(0, 0, 0, 0.6);}
+dialog.full{width: 97vw; height: 93vh;position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); border-radius: 8px; padding: 1.5rem; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);}
+dialog.full div.button-area {padding: 0.5rem 0 0 0;}
+dialog.full div.button-area.center {margin: auto;}
+/* dialog.full div.button-area.right{float: right;} */
+/* dialog.full div.button-area.right button{margin-left: 1.5px;} */
+dialog.full div.button-area button {margin-right: 1.5px; padding: 0.5rem 1rem; font-size: 0.95rem; line-height: 1.2; cursor: pointer; background-color: #ffffff; color: #333333; border: 1px solid #ccc; border-radius: 4px;}
+dialog.full div.button-area button:hover {background: #f4f4f4;}
+dialog.full div.button-area.big button{height: 45px; font-size: 1rem; width: 100px;}
+dialog.full div.button-area button.blue{background: #0078d4; color: #fff; border: none; border-radius: 4px;}
+dialog.full div.button-area button.blue:hover{background: #005a9e;}
+dialog.full div.button-area button.gray{background: #f0f0f0; color: #333;}
+dialog.full div.button-area button.gray:hover {background: #e0e0e0;}
+dialog.full form {display: flex; flex-direction: column; height: 100%; padding: 1.5rem;}
+dialog.full form div.content{height: 100%}
 
-
-
-
-
-
-
-
-
-
-
-
-
-/* ===================================================================
-   6. Dialog (모달) 스타일
-   =================================================================== */
-/* 기본 dialog 박스 */
-dialog {
-  padding: 1.5rem;
-  border: none;
-  border-radius: 4px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-}
-
-/* backdrop(배경 암전) */
-dialog::backdrop {
-  background: rgba(0, 0, 0, 0.6);
-}
-
-/* 상세 dialog 중앙, 대형 사이즈 */
-dialog#detail-popup {
-  width: 97vw;    /* 화면 가로의 97% */
-  height: 93vh;   /* 화면 세로의 93% */
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  border-radius: 8px;
-  padding: 1.5rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-}
-
-
-
-
-
-dialog button {
-  padding: 0.5rem 1rem;
-  border: 0.5;
-  background: #ffffff;
-  color: #000000;
-  border-radius: 4px;
-  cursor: pointer;
-}
-dialog button:hover {
-  background: #fafafa;
-}
-
-dialog#detail-popup form > div:last-child {
+/* dialog.full form > div.button-area:last-child {
   
   border-top: 1px solid rgba(0, 0, 0, 0.1);
   margin-top: 1.5rem;
@@ -258,9 +217,7 @@ dialog#detail-popup form > div:last-child {
   justify-content: flex-end;
   gap: 0.75rem;
 }
-
-
-dialog#detail-popup form > div:last-child button {
+dialog.full form > div.button-area:last-child button {
   padding: 0.75rem 1.5rem;
   font-size: 1rem;
   min-width: 80px;
@@ -268,7 +225,7 @@ dialog#detail-popup form > div:last-child button {
   border: none;
   cursor: pointer;
   transition: background 0.2s ease, color 0.2s ease;
-}
+} */
 
 
 dialog#detail-popup .input-area button {

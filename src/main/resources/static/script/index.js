@@ -1,7 +1,17 @@
+
+
+const documentPopup = document.getElementById('document-popup');
+const documentOpen = document.getElementById('document-open');
+documentOpen.addEventListener('click', () => documentPopup.showModal());
+
 //
 const dtlOpen = document.getElementById('detail-open');
 const dtlSave = document.getElementById('detail-save');
 const dtlPop = document.getElementById('detail-popup');
+
+
+
+
 
 const editor = new toastui.Editor({
 	el: document.querySelector('#editor'),

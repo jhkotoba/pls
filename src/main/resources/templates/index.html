@@ -4,17 +4,21 @@
 <meta charset="UTF-8">
 <title>-</title>
 <link rel="stylesheet" type="text/css" href="/style/common.css">
+<link rel="stylesheet" type="text/css" href="/style/s-grid.css" />
 <link rel="stylesheet" type="text/css" href="/style/toastui-editor.min.css" />
+<script type="text/javascript" src="/script/s-grid.js"></script>
 <script type="text/javascript" src="/script/toastui-editor-all.min.js"></script>
 </head>
 <body>
 	<header>		
-		<a id="document-open" href="#" class="header-link">프로젝트 설정</a>
+		<a id="btnOpenProject" href="#" class="header-link">프로젝트 관리</a>
 		|
-		<a id="detail-open" href="#" class="header-link">이슈/정보 등록</a>
+		<a id="btnOpenDetail" href="#" class="header-link">등록</a>
+		|
+		<a id="btnOpenSetting" href="#" class="header-link">환경설정</a>
 	</header>
-	<div th:replace="~{fragments/aside :: aside}">
-		<!-- <div class="panel">
+	<aside>
+		<div class="panel">
 			<div class="panel-header">
 				<span>🔍 검색 이력</span>
 				<span class="arrow">▶</span>
@@ -50,19 +54,15 @@
 					</li>
 				</ul>
 			</div>
-		</div> -->
-	</div>
+		</div>
+	</aside>
 	
-	<div th:replace="~{pages/search :: search}">
-		<!-- <section>
+	<main>
+		<section>
 			<form id="search-form">
 				<div class="input-area">
 					<lable>프로젝트</lable>
-					<select id="project-select" aria-label="문서 유형">
-						<option value="" selected>전체</option>
-						<option value="A">A</option>
-						<option value="B">B</option>
-					</select>
+					<select id="searchProject" aria-label="문서 유형"></select>
 					<lable>문서유형</lable>
 					<select id="document-type-select" aria-label="문서 유형">
 						<option value="" selected>전체</option>
@@ -70,7 +70,7 @@
 						<option value="B">B</option>
 					</select>
 					<input type="text" id="keyword" placeholder="검색어를 입력하세요" aria-label="검색어 입력"/>
-					<button type="button" id="search" class="blue">검색</button>
+					<button type="button" id="btnSearch" class="blue">검색</button>
 					<button type="button" class="white">태그</button>
 				</div>
 			</form>
@@ -81,55 +81,100 @@
 				<li>결과 아이템 2</li>
 				<li>결과 아이템 3</li>
 			</ul>
-		</section> -->
-	</div>
+		</section>		
+	</main>
 	<footer></footer>
 </body>
 
-
-<dialog id="detail-popup" th:insert="~{popup/detail :: detail}"></dialog>
-<!-- <dialog id="detail-popup">
-	<form method="dialog">
-		<div class="input-area">
-			<select id="document-select" aria-label="문서 선택">
-				<option value="1" selected>1</option>
-				<option value="2">2</option>
-			</select>
-			<input type="text" id="title" placeholder="제목을 입력하세요." aria-label="제목 입력"/>
-			
-			<button id="tag-append">태그등록</button>
-			<button id="detail-info-open">상세정보 등록</button>
-		</div>
-		<div id="editor"></div>
-		<div class="button-area">
-			<button value="close">닫기</button>
-			<button id="detail-save">저장</button>
-		</div>
-	</form>
-</dialog> -->
-
-<dialog id="detail-info-popup" th:insert="~{popup/detail-info :: detail-info}">
-	<!-- <form method="dialog">
-		<div class="button-area">
-			<button value="close">닫기</button>
-		</div>
-	</form> -->
-</dialog>
-
-<dialog id="tag-popup" th:insert="~{popup/tag :: tag}">
-	<!-- <form method="dialog">
-		<div class="button-area">
-			<button value="close">닫기</button>
-		</div>
-	</form> -->
-</dialog>
-
-<dialog id="document-popup" th:insert="~{popup/document :: document}">
-	<!-- <form method="dialog">
-		<button value="close">닫기</button>
-		<button id="document-save">저장</button>
-	</form> -->
-</dialog>
-
-<script type="text/javascript" src="/script/index.js"></script>
+<script type="text/javascript" src="/script/search.js"></script>
+<script type="text/javascript" src="/script/project.js"></script>
+<script type="text/javascript" src="/script/detail.js"></script>
+<script type="text/javascript" src="/script/detail-info.js"></script>
+<script type="text/javascript" src="/script/config.js"></script>
+<script type="text/javascript" src="/script/tag.js"></script>
+<script th:inline="javascript">
+(function(p){
+	p.reference = {
+		search: {
+			handler: {
+				call: function(){
+					
+					
+				}
+			}
+		}
+	}
+	
+	p.dialog = {		
+		project: new Project(),
+		detail: new Detail(),
+		detailInfo: new DetailInfo(),
+		tag: new Tag()
+	};
+	
+	p.button = {
+		openProject: {
+			id: 'btnOpenProject',			
+			element: null,
+			ref: p.dialog.project,
+			click: e => p.dialog.project.call()
+		},
+		openDetail: {
+			id: 'btnOpenDetail',
+			element: null,
+			ref: p.dialog.detail,
+			click: e => p.dialog.detail.call({action: 'INSERT'})
+		},
+	};
+	
+	p.select = {
+		project: {
+			id: 'searchProject',
+			element: null,
+			change: e => console.log(e),
+			find: () => fetch('/find/project'),
+		}	
+	}
+	
+	Object.values(p.button).forEach(function(btn){
+		btn.element = document.getElementById(btn.id);
+		if(typeof btn.click === 'function'){
+			btn.element.addEventListener('click', btn.click);	
+		}
+	});
+	
+	Object.values(p.select).forEach(function(slt){
+		slt.element = document.getElementById(slt.id);
+		if(typeof slt.change === 'function'){
+			slt.element.addEventListener('change', slt.change);	
+		}
+	});
+	
+	Promise.all(Object.values(p.select).map(async function (m){
+		try {
+			const res = await m.find();
+			const data = await res.json();
+			return { element: m.element, data };
+		}catch (e) {
+			console.error(`fetch error for ${m.id}:`, e);
+			return { element: m.element, data: [], error: e };
+		}
+	})).then(values => values.forEach(function(v){
+		let option = null;
+		
+		if(v.data?.length > 0){
+			for(let item of v.data){
+				option = document.createElement('option');
+				option.setAttribute('value', item.id);
+				option.textContent = item.name;
+				v.element.appendChild(option);
+			}	
+		}else{
+			window.alert('Project registration required');
+			p.dialog.project.open({action:'INIT'});
+		}
+	}));
+	
+})({});
+</script>
 </html>

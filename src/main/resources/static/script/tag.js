@@ -1,4 +1,4 @@
-class Search {
+class Tag {
 	
 	constructor(){
 		
@@ -8,9 +8,13 @@ class Search {
 		
 	}
 	
+	
 	call(){
 			
 	}
 	
+	getElement(){
+			
+	}
 }
-window.Search = Search;
+window.Tag = Tag;

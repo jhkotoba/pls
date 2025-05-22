@@ -1,5 +1,6 @@
 package jkt.pls.handler;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
@@ -93,6 +94,21 @@ public class SearchHandler {
 		
 		return Mono.empty();
 		
+	}
+	
+	public Mono<ServerResponse> findProject(ServerRequest serverRequest){
+		
+		return searchService.findProject()
+			.collectList()
+			.flatMap(list -> ServerResponse.ok()
+	                .contentType(MediaType.APPLICATION_JSON)
+	                .bodyValue(list)
+	        )
+	        .onErrorResume(RuntimeException.class, ex ->		        	
+	            ServerResponse.status(HttpStatus.INTERNAL_SERVER_ERROR)
+	                .contentType(MediaType.APPLICATION_JSON)
+	                .bodyValue(Map.of("message", ex.getMessage()))
+	        );
 	}
 	
 }

@@ -1,14 +1,10 @@
 package jkt.pls.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import jkt.pls.model.entity.SearchEntity;
 import jkt.pls.model.request.InsertRequest;
 import jkt.pls.model.request.SearchRequest;
+import jkt.pls.repository.ProjectRepository;
 import jkt.pls.repository.SearchRepository;
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Flux;
@@ -22,6 +18,7 @@ public class SearchService {
 //	private String docPath;
 	
 	private final SearchRepository searchRepository;
+	private final ProjectRepository projectRepository;
 	
 	
 	public Flux<?> list(SearchRequest request){
@@ -62,5 +59,9 @@ public class SearchService {
 		
 		
 		return Mono.empty();
+	}
+	
+	public Flux<?> findProject(){
+		return projectRepository.findAll();
 	}
 }

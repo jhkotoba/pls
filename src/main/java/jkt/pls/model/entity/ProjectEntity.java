@@ -11,20 +11,14 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-@Table("SEARCH")
-public class SearchEntity {
+@Table("PROJECT")
+public class ProjectEntity {
 
 	@Id
-	@Column("SEARCH_ID")
-	private String searchId;
+	@Column("PROJECT_ID")
+	private String projectId;
 	
-	@Column("DOCUMENT_ID")
-	private String documentId; 
-	
-	@Column("SECTION")
-	private String section; 
-	
-	@Column("TOKEN")
-	private String token; 
+	@Column("PROJECT_NAME")
+	private String projectName; 
 	
 }

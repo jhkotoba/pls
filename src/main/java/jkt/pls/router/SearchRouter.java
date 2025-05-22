@@ -22,6 +22,15 @@ public class SearchRouter {
 	}
 	
 	@Bean
+	protected RouterFunction<ServerResponse> select(SearchHandler searchHandler){
+		
+		return RouterFunctions
+				.route(RequestPredicates.GET("/find/project")
+						.and(RequestPredicates.accept(MediaType.APPLICATION_JSON)), searchHandler::findProject);
+				
+	}
+	
+	@Bean
 	protected RouterFunction<ServerResponse> search(SearchHandler searchHandler){
 		
 		return RouterFunctions
