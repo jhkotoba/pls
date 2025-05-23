@@ -37,6 +37,15 @@ window.sGrid = class simpleGrid {
 		this.data = parameter.data || [];		
 		this.#create(parameter);
 	}
+	
+	setData(data){
+		if(typeof data === 'object' && data.length !== undefined){
+			this.data = data.map(m => {
+				console.log('...');
+			});
+		}
+		this.#refresh();
+	}
 
 	clear(){
 		
@@ -45,6 +54,15 @@ window.sGrid = class simpleGrid {
 	#create(){
 		this.#createHead();		
 		this.#createBody();
+	}
+	
+	#refresh(){
+		
+		while(this.el.bodyTb.hasChildNodes()){
+            this.el.bodyTb.removeChild(this.el.bodyTb.firstChild);
+        }
+
+	    this.data.forEach((row, rIdx) => this.bodyTb.appendChild(this.#createBodyRow(row, rIdx)));
 	}
 	
 	#createHead(){
@@ -68,6 +86,8 @@ window.sGrid = class simpleGrid {
 
 		    th.appendChild(div);
 		    this.el.headTr.appendChild(th);
+			
+			field.width ? th.style.width = field.width : null;
 		}
 	}
 	
@@ -82,9 +102,7 @@ window.sGrid = class simpleGrid {
 	
 	#createBodyRow (row, rIdx){
 		
-	    let tr = document.createElement('tr');
-	    tr.dataset.rowSeq = row._rowSeq;
-		
+	    let tr = document.createElement('tr');		
 	    this.fields.forEach((field, cIdx) => tr.appendChild(this.#createBodyRowCell(row, rIdx, field, cIdx)));
 	    
 	    return tr;
@@ -102,6 +120,8 @@ window.sGrid = class simpleGrid {
         tag.textContent = row[cell.name];
         div.appendChild(tag);
 	    td.appendChild(div);
+		
+		cell.width ? td.style.width = cell.width : null;
 	    
 	    return td;
 	}

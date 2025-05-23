@@ -8,6 +8,8 @@ header .header-link {font-size: 0.85rem; color: #000000; text-decoration: none; 
 aside {grid-area: aside; width: 250px; border: 1px solid #ddd; border-radius: 4px; overflow: hidden; font-family: sans-serif;}
 input:focus,select:focus {outline: none; box-shadow: none;}
 select {-webkit-appearance: none; -moz-appearance: none; appearance: none; border: 1px solid #ccc; background-color: #fff; color: #333; padding: 0.5rem 2rem 0.5rem 0.5rem; background-image: url("/image/select-arrow.svg"); background-repeat: no-repeat; background-position: right 0.75rem center; background-size: 10px 6px;}
+button {outline: none;}
+
 
 /* aside */
 .panel + .panel {border-top: 1px solid #eee;}
@@ -36,35 +38,6 @@ main {
   background: #fff;
   overflow-y: auto;
 }
-
-/* 검색 폼 컨테이너 */
-/* .search-area {
-  flex: 0 0 auto;
-} */
-
-/* 검색 폼 레이아웃 */
-/* #search-form {
-  display: flex;
-  gap: 0.5rem;
-} */
-
-/* #search-form input {
-  flex: 1;
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-} */
-
-/* 검색 범위 선택 셀렉트박스 */
-/* #search-form select {
-  width: 120px;
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background: #fff;
-  font-family: inherit;
-  cursor: pointer;
-} */
 
 .input-area {
   display: flex;
@@ -116,35 +89,6 @@ main {
   background-color: #f2f2f2;
 }
 
-/* .input-area button.white {
-  background-color: #ffffff;
-  color: #333333;
-  padding: 0.5rem 1rem;
-  font-size: 0.95rem;
-  line-height: 1.2;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.input-area button.white:hover {
-  background-color: #f2f2f2;
-}
-
-.input-area button.blue {
-  padding: 0.5rem 1rem;
-  border: none;
-  background: #0078d4;
-  color: #fff;
-  border-radius: 4px;
-  cursor: pointer;
-}
-.input-area button.blue:hover {
-  background: #005a9e;
-} */
-
-
 /* 검색 결과 영역 */
 .list-area {
   flex: 1 1 auto;
@@ -173,32 +117,13 @@ main {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 dialog {padding: 1.5rem; border: none; border-radius: 4px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);}
 dialog .dialog{position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); border-radius: 8px; padding: 1.5rem; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);}
 dialog::backdrop {background: rgba(0, 0, 0, 0.6);}
 dialog.full{width: 97vw; height: 93vh;position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); border-radius: 8px; padding: 1.5rem; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);}
 dialog.full div.button-area {padding: 0.5rem 0 0 0;}
 dialog.full div.button-area.center {margin: auto;}
-/* dialog.full div.button-area.right{float: right;} */
-/* dialog.full div.button-area.right button{margin-left: 1.5px;} */
-dialog.full div.button-area button {margin-right: 1.5px; padding: 0.5rem 1rem; font-size: 0.95rem; line-height: 1.2; cursor: pointer; background-color: #ffffff; color: #333333; border: 1px solid #ccc; border-radius: 4px;}
+dialog.full div.button-area button {padding: 0.5rem 1rem; font-size: 0.95rem; line-height: 1.2; cursor: pointer; background-color: #ffffff; color: #333333; border: 1px solid #ccc; border-radius: 4px;}
 dialog.full div.button-area button:hover {background: #f4f4f4;}
 dialog.full div.button-area.big button{height: 45px; font-size: 1rem; width: 100px;}
 dialog.full div.button-area button.blue{background: #0078d4; color: #fff; border: none; border-radius: 4px;}
@@ -206,26 +131,8 @@ dialog.full div.button-area button.blue:hover{background: #005a9e;}
 dialog.full div.button-area button.gray{background: #f0f0f0; color: #333;}
 dialog.full div.button-area button.gray:hover {background: #e0e0e0;}
 dialog.full form {display: flex; flex-direction: column; height: 100%; padding: 1.5rem;}
-dialog.full form div.content{height: 100%}
-
-/* dialog.full form > div.button-area:last-child {
-  
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
-  margin-top: 1.5rem;
-  padding-top: 1rem;
-  display: flex;
-  justify-content: flex-end;
-  gap: 0.75rem;
-}
-dialog.full form > div.button-area:last-child button {
-  padding: 0.75rem 1.5rem;
-  font-size: 1rem;
-  min-width: 80px;
-  border-radius: 4px;
-  border: none;
-  cursor: pointer;
-  transition: background 0.2s ease, color 0.2s ease;
-} */
+dialog.full form > div.content {display: flex; flex-direction: column; height: 100%;}
+dialog.full form > div.content > .button-area.right {display: flex; justify-content: flex-end; gap: 0.25rem; margin-bottom: 1rem; flex: 0 0 auto; margin-bottom: 0.5rem;}
 
 
 dialog#detail-popup .input-area button {
