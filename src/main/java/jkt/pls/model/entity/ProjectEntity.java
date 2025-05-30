@@ -19,6 +19,9 @@ public class ProjectEntity {
 	private String projectId;
 	
 	@Column("PROJECT_NAME")
-	private String projectName; 
+	private String projectName;
+	
+	@Column("DESCRIPTION")
+	private String description; 
 	
 }

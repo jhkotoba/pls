@@ -117,7 +117,7 @@
 			id: 'btnOpenProject',			
 			element: null,
 			ref: p.dialog.project,
-			click: e => p.dialog.project.call()
+			click: e => p.dialog.project.call({data: p?.select?.project?.data})
 		},
 		openDetail: {
 			id: 'btnOpenDetail',
@@ -132,7 +132,8 @@
 			id: 'searchProject',
 			element: null,
 			change: e => console.log(e),
-			find: () => fetch('/find/project'),
+			find: () => fetch('/project/find'),
+			data: null
 		}	
 	}
 	
@@ -154,7 +155,9 @@
 		try {
 			const res = await m.find();
 			const data = await res.json();
-			return { element: m.element, data };
+			m.data = data;
+			
+			return { element: m.element, data: m.data};
 		}catch (e) {
 			console.error(`fetch error for ${m.id}:`, e);
 			return { element: m.element, data: [], error: e };
@@ -168,10 +171,10 @@
 				option.setAttribute('value', item.id);
 				option.textContent = item.name;
 				v.element.appendChild(option);
-			}	
+			}
 		}else{
 			window.alert('Project registration required');
-			p.dialog.project.open({action:'INIT'});
+			p.dialog.project.open({action:'INIT', data: p.select.project.data});
 		}
 	}));
 	

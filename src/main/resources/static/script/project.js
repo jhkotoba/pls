@@ -2,6 +2,8 @@ class Project {
 	
 	constructor(parameter){
 		
+		console.log('parameter:', parameter);
+		
 		this.element = {};
 		this.el = this.element;
 		this.grid = null;
@@ -13,12 +15,6 @@ class Project {
 		}else{
 			this.data = [];
 		}
-		
-		this.data = [
-			{projectId: 1, projectName: 'pls', description: 'test'},
-			{projectId: 2, projectName: 'oe', description: 'test'},
-			
-		]
 
 		this.#createDialog();
 		this.#createEvent();
@@ -35,7 +31,7 @@ class Project {
 		}
 	}
 	
-	
+	add = () => this.grid.prependRow();	
 	
 	#createDialog(){
 
@@ -52,10 +48,13 @@ class Project {
 		this.el.btnReset = document.createElement('button');
 		this.el.btnReset.textContent = '초기화';
 		
+		this.el.add = document.createElement('button');
+		this.el.add.textContent = '추가';
+		
 		this.el.btnSave = document.createElement('button');
 		this.el.btnSave.className = 'blue';
 		this.el.btnSave.textContent = '저장';
-		controlArea.append(this.el.btnReset, this.el.btnSave)
+		controlArea.append(this.el.btnReset, this.el.add, this.el.btnSave)
 		
 		this.el.grid = document.createElement('div');
 		this.el.content.append(controlArea, this.el.grid);
@@ -91,6 +90,11 @@ class Project {
 			alert('this.el.btnReset');
 			
 			
+		});
+		
+		this.el.add.addEventListener('click', ev => {
+			ev.preventDefault();
+			this.add();
 		});
 		
 		this.el.btnSave.addEventListener('click', ev => {

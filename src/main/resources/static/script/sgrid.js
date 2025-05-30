@@ -34,7 +34,9 @@ window.sGrid = class simpleGrid {
 			this.el.target.appendChild(this.el.pagination);	
 		}
 		
-		this.data = parameter.data || [];		
+		this.data = parameter.data || [];
+		this.data.forEach(f => f._status = 'SELECT');
+				
 		this.#create(parameter);
 	}
 	
@@ -46,7 +48,9 @@ window.sGrid = class simpleGrid {
 		}
 		this.#refresh();
 	}
-
+	
+	prependRow = () => this.#createBodyNewRow();
+	
 	clear(){
 		
 	}
@@ -100,7 +104,15 @@ window.sGrid = class simpleGrid {
 		this.data.forEach((item, idx) => this.el.bodyTb.appendChild(this.#createBodyRow(item, idx)));
 	}
 	
-	#createBodyRow (row, rIdx){
+	#createBodyNewRow(){
+		let newData = {
+			_status: 'INSERT'
+		}
+		this.data.push(newData);
+		this.el.bodyTb.insertBefore(this.#createBodyRow(newData, 0), this.el.bodyTb.firstChild);
+	}
+	
+	#createBodyRow(row, rIdx){
 		
 	    let tr = document.createElement('tr');		
 	    this.fields.forEach((field, cIdx) => tr.appendChild(this.#createBodyRowCell(row, rIdx, field, cIdx)));
