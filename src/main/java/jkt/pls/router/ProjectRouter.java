@@ -16,11 +16,13 @@ public class ProjectRouter {
 	@Bean
 	protected RouterFunction<ServerResponse> project(ProjectHandler handler){
 		
-		return RouterFunctions
-				.route(RequestPredicates.GET("/project/find")
-						.and(RequestPredicates.accept(MediaType.APPLICATION_JSON)), handler::findAll)
-				.andRoute(RequestPredicates.POST("/project/apply")
-						.and(RequestPredicates.accept(MediaType.APPLICATION_JSON)), handler::apply);
-				
-	}
+                return RouterFunctions
+                                .route(RequestPredicates.GET("/project/find")
+                                                .and(RequestPredicates.accept(MediaType.APPLICATION_JSON)), handler::findAll)
+                                .andRoute(RequestPredicates.POST("/project/apply")
+                                                .and(RequestPredicates.accept(MediaType.APPLICATION_JSON)), handler::apply)
+                                .andRoute(RequestPredicates.DELETE("/project/{id}")
+                                                .and(RequestPredicates.accept(MediaType.APPLICATION_JSON)), handler::delete);
+
+        }
 }
