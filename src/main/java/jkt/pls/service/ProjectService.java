@@ -3,7 +3,7 @@ package jkt.pls.service;
 import org.springframework.stereotype.Service;
 
 import jkt.pls.model.entity.ProjectEntity;
-import jkt.pls.model.request.ProjectApplyReqeust;
+import jkt.pls.model.request.ProjectApplyRequest;
 import jkt.pls.repository.ProjectRepository;
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Flux;
@@ -19,7 +19,7 @@ public class ProjectService {
 		return projectRepository.findAll();
 	}
 	
-	public Mono<ProjectEntity> apply(ProjectApplyReqeust request){
+	public Mono<ProjectEntity> apply(ProjectApplyRequest request){
 		
 		return projectRepository.save(ProjectEntity.builder()
 			.projectId(request.getProjectId())

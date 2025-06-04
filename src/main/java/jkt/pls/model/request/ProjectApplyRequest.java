@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ProjectApplyReqeust {
+public class ProjectApplyRequest {
 
 	private String projectId;	
 	

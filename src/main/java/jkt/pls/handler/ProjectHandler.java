@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 
-import jkt.pls.model.request.ProjectApplyReqeust;
+import jkt.pls.model.request.ProjectApplyRequest;
 import jkt.pls.service.ProjectService;
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Mono;
@@ -36,7 +36,7 @@ public class ProjectHandler {
 	
 	public Mono<ServerResponse> apply(ServerRequest serverRequest){
 		
-		return serverRequest.bodyToMono(ProjectApplyReqeust.class)
+		return serverRequest.bodyToMono(ProjectApplyRequest.class)
 			.flatMap(projectService::apply)
 			.flatMap(p -> ServerResponse.ok()
 		            .contentType(MediaType.APPLICATION_JSON)		            
