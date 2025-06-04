@@ -106,7 +106,10 @@ window.sGrid = class simpleGrid {
 	
 	#createBodyNewRow(){
 		let newData = {
-			_status: 'INSERT'
+			_status: 'INSERT',
+			projectId: '',
+			projectName: '',
+			description: ''
 		}
 		this.data.push(newData);
 		this.el.bodyTb.insertBefore(this.#createBodyRow(newData, 0), this.el.bodyTb.firstChild);
@@ -114,26 +117,39 @@ window.sGrid = class simpleGrid {
 	
 	#createBodyRow(row, rIdx){
 		
-	    let tr = document.createElement('tr');		
-	    this.fields.forEach((field, cIdx) => tr.appendChild(this.#createBodyRowCell(row, rIdx, field, cIdx)));
+	    let tr = document.createElement('tr');
+		tr.className = row._status?.toLocaleLowerCase();
+		
+	    this.fields.forEach((field, fIdx) => tr.appendChild(this.#createBodyRowCell(row, rIdx, field)));
 	    
 	    return tr;
 	}
 	
-	#createBodyRowCell = (row, rIdx, cell, cIdx,) => {
+	#createBodyRowCell = (row, rIdx, field) => {
 	   
-	    let type = null, tag = null, td = null, div = null;
+	    let tag = null, td = null, div = null;
 
 	    td = document.createElement('td');
 	    div = document.createElement('div');
-
-		tag = document.createElement('span');
-        tag.setAttribute('name', cell.name);
-        tag.textContent = row[cell.name];
-        div.appendChild(tag);
+		
+		switch(field.type){
+		case 'text': 
+			tag = document.createElement('span');
+	        tag.setAttribute('name', field.name);
+	        tag.textContent = row[field.name];	        
+			break;		
+		case 'input':
+			tag = document.createElement('input');
+			tag.setAttribute('type', 'text');
+	        tag.setAttribute('name', field.name);
+	        tag.value = row[field.name];
+			break;
+		}
+		
+		div.appendChild(tag);
 	    td.appendChild(div);
 		
-		cell.width ? td.style.width = cell.width : null;
+		field.width ? td.style.width = field.width : null;
 	    
 	    return td;
 	}

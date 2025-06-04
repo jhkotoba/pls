@@ -75,9 +75,9 @@ class Project {
 		this.grid = new window.sGrid({
 			target: this.el.grid,
 			fields: [
-				{title:'ID', name:'projectId', width:'80px'},
-				{title:'프로젝트', name:'projectName', width:'150px'},
-				{title:'설명', name:'description'},
+				{title:'ID', name:'projectId', width:'80px', type:'text'},
+				{title:'프로젝트', name:'projectName', width:'150px', type:'input'},
+				{title:'설명', name:'description', type:'input'},
 			],
 			data: this.data
 		});

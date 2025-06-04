@@ -17,21 +17,21 @@ public class PlsApplication {
 		SpringApplication.run(PlsApplication.class, args);		
 	}
 	
-	@EventListener(ApplicationReadyEvent.class)
-    public void openBrowserOnStart() {
-        String url = "http://localhost:17001/";
-        try {
-            if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
-                Desktop.getDesktop().browse(new URI(url));
-            } else {
-                // Windows fallback
-                Runtime.getRuntime().exec(new String[] {
-                    "rundll32", "url.dll,FileProtocolHandler", url
-                });
-            }
-        } catch (IOException | URISyntaxException e) {
-            e.printStackTrace();
-        }
-    }
+//	@EventListener(ApplicationReadyEvent.class)
+//    public void openBrowserOnStart() {
+//        String url = "http://localhost:17001/";
+//        try {
+//            if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+//                Desktop.getDesktop().browse(new URI(url));
+//            } else {
+//                // Windows fallback
+//                Runtime.getRuntime().exec(new String[] {
+//                    "rundll32", "url.dll,FileProtocolHandler", url
+//                });
+//            }
+//        } catch (IOException | URISyntaxException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
 }

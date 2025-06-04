@@ -1,4 +1,4 @@
-.sgrid {display: flex; flex-direction: column; height: 100%; background: #fff; border: 1px solid #ddd; margin: 5px 0;}
+.sgrid {display: flex; flex-direction: column; flex: 1 1 auto; min-height: 0; background: #fff; border: 1px solid #ddd; margin: 5px 0;}
 .sgrid::-webkit-scrollbar{width:8px;height:8px;}
 .sgrid::-webkit-scrollbar-track{background:#f1f1f1;}
 .sgrid::-webkit-scrollbar-thumb{background:#ccc;border-radius:4px;}
@@ -8,14 +8,37 @@
 .sgrid input[type="checkbox"]:checked::after{display:block;}
 .sgrid .header {flex: 0 0 auto; overflow: hidden;}
 .sgrid .header table{background:#f8f9fa;border-collapse:collapse;width:100%;color:#333;border-bottom:1px solid #ddd;}
-.sgrid .header table th{border:none;padding:5px;text-align:center;height:25px;}
+.sgrid .header table th{border:1px solid #ddd;padding:5px;text-align:center;height:25px;}
 .sgrid .body {flex: 1 1 auto; overflow: auto;}
 .sgrid .body .bodyEmpty {min-height: 100%;}
 .sgrid .body table{background:#fff;border-collapse:collapse;width:100%;color:#333;font-size:0.9em;}
 .sgrid .body table tr{border-bottom:1px solid #ddd;}
 .sgrid .body table tr:hover{background:#f5f5f5;}
 .sgrid .body table tr:active{background:#e9e9e9;}
-.sgrid .body table td{padding:5px;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;height:30px;}
+.sgrid .body table tr.insert {background-color: #fff3cd;}
+.sgrid .body table tr.insert:hover {background-color: #ffe69c;}
+.sgrid .body table tr.insert:active {background-color: #ffdb6b;}
+.sgrid .body table tr.update {background-color: #d1ecf1;}
+.sgrid .body table tr.update:hover {background-color: #abdfe6;}
+.sgrid .body table tr.update:active {background-color: #84d2db;}
+.sgrid .body table tr.delete {background-color: #f8d7da;}
+.sgrid .body table tr.delete:hover {background-color: #f1aeb3;}
+.sgrid .body table tr.delete:active {background-color: #e8848c;}
+.sgrid .body table tr input[type="text"] {width: 100%; padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px; font-size: 1rem; color: #333; background-color: #fff; box-sizing: border-box; transition: border-color 0.2s ease, box-shadow 0.2s ease;}
+.sgrid .body table tr input[type="text"]:focus {border-color: #0078d4; box-shadow: 0 0 0 2px rgba(0, 120, 212, 0.2); outline: none;}
+.sgrid .body table tr input[type="text"][disabled],.sgrid .body table tr input[type="text"][readonly] {background-color: #f5f5f5; color: #999; border-color: #ddd; cursor: not-allowed;}
+.sgrid .body table tr input[type="text"]::placeholder {color: #999; opacity: 1;}
+.sgrid .body table tr input[type="text"]:hover {border-color: #bbb;}
+.sgrid .body table tr.insert input[type="text"] {background-color: #fff3cd; color: #856404; border: 1px solid #ffe69c;}
+.sgrid .body table tr.insert input[type="text"]:hover {background-color: #ffe69c; color: #856404; border-color: #ffdb6b;}
+.sgrid .body table tr.insert input[type="text"]:focus {background-color: #ffdb6b; color: #856404; border-color: #d4ac0d; outline: none; box-shadow: 0 0 0 2px rgba(212, 172, 13, 0.2);}
+.sgrid .body table tr.update input[type="text"] {background-color: #d1ecf1; color: #0c5460; border: 1px solid #abdfe6;}
+.sgrid .body table tr.update input[type="text"]:hover {background-color: #abdfe6; color: #0c5460; border-color: #84d2db;}
+.sgrid .body table tr.update input[type="text"]:focus {background-color: #84d2db; color: #0c5460; border-color: #31708f; outline: none; box-shadow: 0 0 0 2px rgba(49, 112, 143, 0.2);}
+.sgrid .body table tr.delete input[type="text"] {background-color: #f8d7da; color: #721c24; border: 1px solid #f1aeb3;}
+.sgrid .body table tr.delete input[type="text"]:hover {background-color: #f1aeb3; color: #721c24; border-color: #e8848c;}
+.sgrid .body table tr.delete input[type="text"]:focus {background-color: #e8848c; color: #721c24; border-color: #a71d2a; outline: none; box-shadow: 0 0 0 2px rgba(167, 29, 42, 0.2);}
+.sgrid .body table td{padding:5px; border-right: 1px solid #ddd; text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;height:30px;}
 .sgrid .pagination{background:#fff;border-top:1px solid #ddd;padding:5px;text-align:center;}
 .sgrid .pagination button{margin:0 5px;background:#fff;border:1px solid #ccc;border-radius:2px;color:#333;cursor:pointer;font-weight:500;padding:0.25rem 0.5rem;height:30px;}
 .sgrid .pagination button:hover{background:#f5f5f5;}

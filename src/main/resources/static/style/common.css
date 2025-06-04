@@ -131,7 +131,7 @@ dialog.full div.button-area button.blue:hover{background: #005a9e;}
 dialog.full div.button-area button.gray{background: #f0f0f0; color: #333;}
 dialog.full div.button-area button.gray:hover {background: #e0e0e0;}
 dialog.full form {display: flex; flex-direction: column; height: 100%; padding: 1.5rem;}
-dialog.full form > div.content {display: flex; flex-direction: column; height: 100%;}
+dialog.full form > div.content {display: flex; flex-direction: column; flex: 1 1 auto; min-height: 0;}
 dialog.full form > div.content > .button-area.right {display: flex; justify-content: flex-end; gap: 0.25rem; margin-bottom: 1rem; flex: 0 0 auto; margin-bottom: 0.5rem;}
 
 
