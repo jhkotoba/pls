@@ -1,9 +1,9 @@
 window.sGrid = class simpleGrid {
 	
-	constructor(parameter){
-				
-		this.fields = parameter.fields;
-		this.el = {
+        constructor(parameter){
+
+                this.fields = parameter.fields;
+                this.el = {
 			target: parameter.target,
 			head: document.createElement('div'),
 			headTb: document.createElement('table'),
@@ -34,8 +34,8 @@ window.sGrid = class simpleGrid {
 			this.el.target.appendChild(this.el.pagination);	
 		}
 		
-		this.data = parameter.data || [];
-		this.data.forEach(f => f._status = 'SELECT');
+                this.data = parameter.data || [];
+                this.data.forEach(f => f._status = f._status || 'SELECT');
 				
 		this.#create(parameter);
 	}
@@ -49,7 +49,16 @@ window.sGrid = class simpleGrid {
 		this.#refresh();
 	}
 	
-	prependRow = () => this.#createBodyNewRow();
+        prependRow = () => this.#createBodyNewRow();
+
+        markDelete = row => {
+                if(row){
+                        row._status = 'DELETE';
+                        this.#refresh();
+                }
+        };
+
+        getData = () => this.data;
 	
 	clear(){
 		
@@ -60,14 +69,14 @@ window.sGrid = class simpleGrid {
 		this.#createBody();
 	}
 	
-	#refresh(){
-		
-		while(this.el.bodyTb.hasChildNodes()){
+        #refresh(){
+
+                while(this.el.bodyTb.hasChildNodes()){
             this.el.bodyTb.removeChild(this.el.bodyTb.firstChild);
         }
 
-	    this.data.forEach((row, rIdx) => this.bodyTb.appendChild(this.#createBodyRow(row, rIdx)));
-	}
+            this.data.forEach((row, rIdx) => this.el.bodyTb.appendChild(this.#createBodyRow(row, rIdx)));
+        }
 	
 	#createHead(){
 		
@@ -115,42 +124,59 @@ window.sGrid = class simpleGrid {
 		this.el.bodyTb.insertBefore(this.#createBodyRow(newData, 0), this.el.bodyTb.firstChild);
 	}
 	
-	#createBodyRow(row, rIdx){
-		
-	    let tr = document.createElement('tr');
-		tr.className = row._status?.toLocaleLowerCase();
-		
-	    this.fields.forEach((field, fIdx) => tr.appendChild(this.#createBodyRowCell(row, rIdx, field)));
-	    
-	    return tr;
-	}
-	
-	#createBodyRowCell = (row, rIdx, field) => {
-	   
-	    let tag = null, td = null, div = null;
+        #createBodyRow(row, rIdx){
 
-	    td = document.createElement('td');
-	    div = document.createElement('div');
-		
-		switch(field.type){
-		case 'text': 
-			tag = document.createElement('span');
-	        tag.setAttribute('name', field.name);
-	        tag.textContent = row[field.name];	        
-			break;		
-		case 'input':
-			tag = document.createElement('input');
-			tag.setAttribute('type', 'text');
-	        tag.setAttribute('name', field.name);
-	        tag.value = row[field.name];
-			break;
-		}
-		
-		div.appendChild(tag);
-	    td.appendChild(div);
-		
-		field.width ? td.style.width = field.width : null;
-	    
-	    return td;
-	}
+            let tr = document.createElement('tr');
+                tr.className = row._status?.toLocaleLowerCase();
+
+            this.fields.forEach((field, fIdx) => tr.appendChild(this.#createBodyRowCell(row, rIdx, field, tr)));
+
+            return tr;
+        }
+	
+        #createBodyRowCell = (row, rIdx, field, tr) => {
+
+            let tag = null, td = null, div = null;
+
+            td = document.createElement('td');
+            div = document.createElement('div');
+
+                switch(field.type){
+                case 'text':
+                        tag = document.createElement('span');
+                tag.setAttribute('name', field.name);
+                tag.textContent = row[field.name];
+                        break;
+                case 'input':
+                        tag = document.createElement('input');
+                        tag.setAttribute('type', 'text');
+                tag.setAttribute('name', field.name);
+                tag.value = row[field.name];
+                        tag.addEventListener('input', ev => {
+                                row[field.name] = ev.target.value;
+                                if(row._status === 'SELECT'){
+                                        row._status = 'UPDATE';
+                                        tr.className = 'update';
+                                }
+                        });
+                        break;
+                case 'button':
+                        tag = document.createElement('button');
+                        tag.textContent = field.label || 'Button';
+                        tag.addEventListener('click', ev => {
+                                ev.preventDefault();
+                                if(typeof field.onClick === 'function'){
+                                        field.onClick({row, rIdx, field, grid:this});
+                                }
+                        });
+                        break;
+                }
+
+                div.appendChild(tag);
+            td.appendChild(div);
+
+                field.width ? td.style.width = field.width : null;
+
+            return td;
+        }
 }
