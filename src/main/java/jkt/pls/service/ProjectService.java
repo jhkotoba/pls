@@ -19,12 +19,16 @@ public class ProjectService {
 		return projectRepository.findAll();
 	}
 	
-	public Mono<ProjectEntity> apply(ProjectApplyRequest request){
-		
-		return projectRepository.save(ProjectEntity.builder()
-			.projectId(request.getProjectId())
-			.projectName(request.getProjectName())
-			.description(request.getDescription())
-			.build());
-	}
+        public Mono<ProjectEntity> apply(ProjectApplyRequest request){
+
+                return projectRepository.save(ProjectEntity.builder()
+                        .projectId(request.getProjectId())
+                        .projectName(request.getProjectName())
+                        .description(request.getDescription())
+                        .build());
+        }
+
+        public Mono<Void> delete(String projectId){
+                return projectRepository.deleteById(projectId);
+        }
 }
