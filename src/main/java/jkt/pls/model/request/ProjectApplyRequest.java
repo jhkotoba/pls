@@ -1,5 +1,7 @@
 package jkt.pls.model.request;
 
+import java.util.List;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -7,9 +9,5 @@ import lombok.Setter;
 @Setter
 public class ProjectApplyRequest {
 
-	private String projectId;	
-	
-	private String projectName;
-	
-	private String description;
+	private List<ProjectRequest> list;
 }

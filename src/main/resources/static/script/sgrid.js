@@ -1,9 +1,11 @@
 window.sGrid = class simpleGrid {
 	
-        constructor(parameter){
+    constructor(parameter){
+		
+		this.rowIdx = 0;
 
-                this.fields = parameter.fields;
-                this.el = {
+	    this.fields = parameter.fields;
+	    this.el = {
 			target: parameter.target,
 			head: document.createElement('div'),
 			headTb: document.createElement('table'),
@@ -34,31 +36,37 @@ window.sGrid = class simpleGrid {
 			this.el.target.appendChild(this.el.pagination);	
 		}
 		
-                this.data = parameter.data || [];
-                this.data.forEach(f => f._status = f._status || 'SELECT');
+	    this.data = parameter.data || [];
+	    this.data.forEach(f => {
+			f._status = f._status || 'SELECT';
+			f._index = this.#getRowIdx();
+		});
+		
+		this.event = parameter.event || {};
 				
 		this.#create(parameter);
+	}
+	
+	#getRowIdx(){
+		this.rowIdx++;
+		return this.rowIdx;
 	}
 	
 	setData(data){
 		if(typeof data === 'object' && data.length !== undefined){
 			this.data = data.map(m => {
-				console.log('...');
+				m._indexx = this.#getRowIdx();
+				m._status = 'SELECT';
 			});
+			
+			this.#refresh();
 		}
-		this.#refresh();
+		
 	}
 	
-        prependRow = () => this.#createBodyNewRow();
+    prependRow = () => this.#createBodyNewRow();   
 
-        markDelete = row => {
-                if(row){
-                        row._status = 'DELETE';
-                        this.#refresh();
-                }
-        };
-
-        getData = () => this.data;
+    getData = () => this.data;
 	
 	clear(){
 		
@@ -67,16 +75,17 @@ window.sGrid = class simpleGrid {
 	#create(){
 		this.#createHead();		
 		this.#createBody();
+		this.#createEvent();
 	}
 	
-        #refresh(){
-
-                while(this.el.bodyTb.hasChildNodes()){
-            this.el.bodyTb.removeChild(this.el.bodyTb.firstChild);
-        }
-
-            this.data.forEach((row, rIdx) => this.el.bodyTb.appendChild(this.#createBodyRow(row, rIdx)));
-        }
+    #refresh(){
+		
+		while(this.el.bodyTb.hasChildNodes()){
+        	this.el.bodyTb.removeChild(this.el.bodyTb.firstChild);
+    	}
+		
+    	this.data.forEach((row, rIdx) => this.el.bodyTb.appendChild(this.#createBodyRow(row, rIdx)));
+    }
 	
 	#createHead(){
 		
@@ -114,69 +123,89 @@ window.sGrid = class simpleGrid {
 	}
 	
 	#createBodyNewRow(){
-		let newData = {
-			_status: 'INSERT',
-			projectId: '',
-			projectName: '',
-			description: ''
+		
+		let newData = {};
+		newData._status = 'INSERT';
+		newData._index = this.#getRowIdx();
+		
+		for(let item of this.fields){
+			newData[item.name] = '';
 		}
+		
 		this.data.push(newData);
-		this.el.bodyTb.insertBefore(this.#createBodyRow(newData, 0), this.el.bodyTb.firstChild);
+		this.el.bodyTb.insertBefore(this.#createBodyRow(newData), this.el.bodyTb.firstChild);
 	}
 	
-        #createBodyRow(row, rIdx){
+    #createBodyRow(row){
 
-            let tr = document.createElement('tr');
-                tr.className = row._status?.toLocaleLowerCase();
+		let tr = document.createElement('tr');
+		tr.className = row._status?.toLocaleLowerCase();
+		tr.setAttribute('data-index', row._index);
+        //this.fields.forEach((field, fIdx) => tr.appendChild(this.#createBodyRowCell(row, rIdx, field, tr)));
+		this.fields.forEach(field => tr.appendChild(this.#createBodyRowCell(row, field, tr)));
 
-            this.fields.forEach((field, fIdx) => tr.appendChild(this.#createBodyRowCell(row, rIdx, field, tr)));
-
-            return tr;
-        }
+        return tr;
+    }
 	
-        #createBodyRowCell = (row, rIdx, field, tr) => {
+    #createBodyRowCell = (row, field, tr) => {
 
-            let tag = null, td = null, div = null;
+        let tag = null, td = null, div = null;
 
-            td = document.createElement('td');
-            div = document.createElement('div');
+        td = document.createElement('td');
+        div = document.createElement('div');
 
-                switch(field.type){
-                case 'text':
-                        tag = document.createElement('span');
-                tag.setAttribute('name', field.name);
-                tag.textContent = row[field.name];
-                        break;
-                case 'input':
-                        tag = document.createElement('input');
-                        tag.setAttribute('type', 'text');
-                tag.setAttribute('name', field.name);
-                tag.value = row[field.name];
-                        tag.addEventListener('input', ev => {
-                                row[field.name] = ev.target.value;
-                                if(row._status === 'SELECT'){
-                                        row._status = 'UPDATE';
-                                        tr.className = 'update';
-                                }
-                        });
-                        break;
-                case 'button':
-                        tag = document.createElement('button');
-                        tag.textContent = field.label || 'Button';
-                        tag.addEventListener('click', ev => {
-                                ev.preventDefault();
-                                if(typeof field.onClick === 'function'){
-                                        field.onClick({row, rIdx, field, grid:this});
-                                }
-                        });
-                        break;
+        switch(field.type){
+        case 'text':
+			tag = document.createElement('span');
+			tag.setAttribute('data-name', field.name);
+			tag.setAttribute('data-row-index', row._index);
+			tag.textContent = row[field.name];
+                break;
+        case 'input':
+			tag = document.createElement('input');
+			tag.setAttribute('type', 'text');
+        	tag.setAttribute('data-name', field.name);
+			tag.setAttribute('data-row-index', row._index);
+        	tag.value = row[field.name];
+            tag.addEventListener('input', ev => {
+                row[field.name] = ev.target.value;
+                if(row._status === 'SELECT'){
+					row._status = 'UPDATE';
+					tr.className = 'update';
                 }
-
-                div.appendChild(tag);
-            td.appendChild(div);
-
-                field.width ? td.style.width = field.width : null;
-
-            return td;
+            });
+			break;
+        case 'button':
+		    tag = document.createElement('button');
+		    tag.textContent = field.label || 'Button';
+			tag.setAttribute('data-name', field.name);
+			tag.setAttribute('data-row-index', row._index);
+		    /*tag.addEventListener('click', ev => {
+            	ev.preventDefault();
+	            if(typeof field.onClick === 'function'){
+					field.onClick({row, rIdx, field, grid:this});
+	            }
+		    });*/
+		    break;
         }
+
+        div.appendChild(tag);
+        td.appendChild(div);
+
+		field.width ? td.style.width = field.width : null;
+        return td;
+    }
+	
+	#createEvent(){
+		
+		this.el.body.addEventListener('click', event => {
+			
+			let rowIdx = event.target.dataset.rowIndex;
+			
+			let fnClick = this.event?.click[event.target?.dataset?.name];
+			if(typeof fnClick === 'function'){
+				fnClick(event, {rowIdx});	
+			}
+		});
+	}
 }

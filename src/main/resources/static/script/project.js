@@ -8,12 +8,13 @@ class Project {
 		this.el = this.element;
 		this.grid = null;
 		this.isInit = false;
-		this.data = null;
+		this.data = null;	
 		
-		if(parameter?.data){
-			this.data = parameter.data;
+		
+		if(typeof parameter?.close === 'function'){
+			this.fnClose = parameter.close;	
 		}else{
-			this.data = [];
+			this.fnClose = () => {};
 		}
 
 		this.#createDialog();
@@ -31,31 +32,51 @@ class Project {
 		}
 	}
 	
-        add = () => this.grid.prependRow();
+	setData(data){
+		this.data = data;
+		this.grid.setData(this.data);
+	}
+	
+    add = () => this.grid.prependRow();
 
-        remove = row => this.grid.markDelete(row);
+    //remove = row => this.grid.markDelete(row);
 
-        save = async () => {
-                const data = this.grid.getData();
-                for(const row of data){
-                        if(row._status === 'INSERT' || row._status === 'UPDATE'){
-                                await fetch('/project/apply', {
-                                        method:'POST',
-                                        headers:{'Content-Type':'application/json'},
-                                        body: JSON.stringify(row)
-                                });
-                        }else if(row._status === 'DELETE' && row.projectId){
-                                await fetch(`/project/${row.projectId}`, {method:'DELETE'});
-                        }
-                }
-                const res = await fetch('/project/find');
-                const list = await res.json();
-                list.forEach(f => f._status = 'SELECT');
-                this.grid.data = list;
-                this.grid.setData(list);
-                this.isInit = false;
-                this.el.dialog.close();
-        };
+    apply = async () => {
+		
+		const data = this.grid.getData();
+		console.log('data:', data);
+		
+		let response = await fetch('/project/apply-find', {
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body: JSON.stringify(data)
+        });
+		
+		const list = await response.json();
+		list.forEach(f => f._status = 'SELECT');
+		
+		this.grid.setData(list);
+		
+        /*const data = this.grid.getData();
+        for(const row of data){
+            if(row._status === 'INSERT' || row._status === 'UPDATE'){
+                response = await fetch('/project/apply-find', {
+                    method:'POST',
+                    headers:{'Content-Type':'application/json'},
+                    body: JSON.stringify(row)
+                });
+            }else if(row._status === 'DELETE' && row.projectId){
+                await fetch(`/project/${row.projectId}`, {method:'DELETE'});
+            }
+        }
+        const res = await fetch('/project/find');
+        const list = await res.json();
+        list.forEach(f => f._status = 'SELECT');
+        this.grid.data = list;
+        this.grid.setData(list);
+        this.isInit = false;
+        this.el.dialog.close();*/
+    };
 	
 	#createDialog(){
 
@@ -96,40 +117,52 @@ class Project {
 		this.el.dialog.appendChild(this.el.form);
 		document.body.appendChild(this.el.dialog);
 		
-                this.grid = new window.sGrid({
-                        target: this.el.grid,
-                        fields: [
-                                {title:'ID', name:'projectId', width:'80px', type:'text'},
-                                {title:'프로젝트', name:'projectName', width:'150px', type:'input'},
-                                {title:'설명', name:'description', type:'input'},
-                                {title:'삭제', type:'button', width:'60px', label:'삭제', onClick: ({row}) => this.remove(row)}
-                        ],
-                        data: this.data
-                });
+		console.log('this.data:', this.data);
+		
+        this.grid = new window.sGrid({
+            target: this.el.grid,
+            fields: [
+                {title:'ID', name:'projectId', width:'80px', type:'text'},
+                {title:'프로젝트', name:'projectName', width:'150px', type:'input'},
+                {title:'설명', name:'description', type:'input'},
+                {title:'삭제', name:'delete', type:'button', width:'60px', label:'삭제'}
+            ],
+            data: this.data,
+			event: {
+				click: {
+					delete: (p, e) => {
+						console.log('event.click.delete:', p, e);
+					}
+				}
+			}
+        });
 	}
 
 	#createEvent(){
 		
-                this.el.btnReset.addEventListener('click', async ev => {
-                        ev.preventDefault();
-                        const res = await fetch('/project/find');
-                        const list = await res.json();
-                        list.forEach(f => f._status = 'SELECT');
-                        this.grid.data = list;
-                        this.grid.setData(list);
-                });
+        this.el.btnReset.addEventListener('click', async ev => {
+            ev.preventDefault();
+            const res = await fetch('/project/find');
+            const list = await res.json();
+			
+            list.forEach(f => f._status = 'SELECT');
+			
+            this.grid.data = list;
+            this.grid.setData(list);
+        });
 		
 		this.el.add.addEventListener('click', ev => {
 			ev.preventDefault();
 			this.add();
 		});
 		
-                this.el.btnSave.addEventListener('click', ev => {
-                        ev.preventDefault();
-                        this.save();
-                });
+        this.el.btnSave.addEventListener('click', ev => {
+            ev.preventDefault();
+            this.apply();
+        });
 		
-		this.el.btnClose.addEventListener('click', ev => {			
+		this.el.btnClose.addEventListener('click', ev => {	
+			console.log('dialog btnClose click');		
 			if(this.isInit){
 				ev.preventDefault();
 				ev.stopPropagation();
@@ -137,7 +170,8 @@ class Project {
 			}
 		});
 		
-		this.el.dialog.addEventListener('cancel', ev => {			
+		this.el.dialog.addEventListener('cancel', ev => {
+			console.log('dialog cancel');
 			if(this.isInit){
 				ev.preventDefault();
 				ev.stopPropagation();
@@ -147,7 +181,8 @@ class Project {
 		
 		
 		this.el.dialog.addEventListener('keydown', ev => {
-		  if (ev.key === 'Escape' && this.isInit === true) {
+			console.log('dialog keydown');
+			if (ev.key === 'Escape' && this.isInit === true) {
 				if(this.isInit){
 					ev.preventDefault();
 					ev.stopPropagation();
