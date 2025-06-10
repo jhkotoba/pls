@@ -9,6 +9,7 @@ import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 
 import jkt.pls.model.request.ProjectApplyRequest;
+import jkt.pls.model.response.ProjectResponse;
 import jkt.pls.service.ProjectService;
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Mono;
@@ -25,7 +26,12 @@ public class ProjectHandler {
 		.collectList()
 		.flatMap(list -> ServerResponse.ok()
             .contentType(MediaType.APPLICATION_JSON)
-            .bodyValue(list)
+            .bodyValue(list.stream().map(m -> ProjectResponse.builder()
+            	.projectId(m.getProjectId())
+            	.projectName(m.getProjectName())
+            	.description(m.getDescription())
+            	.build())
+            )
         )
         .onErrorResume(RuntimeException.class, ex ->		        	
             ServerResponse.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -53,12 +59,17 @@ public class ProjectHandler {
 		
 		return serverRequest.bodyToMono(ProjectApplyRequest.class)
 			.flatMap(projectService::apply)
-			.flatMap(f -> projectService.findAll().collectList())
+			.then(projectService.findAll().collectList())
 			.flatMap(list -> ServerResponse.ok()
                 .contentType(MediaType.APPLICATION_JSON)
-                .bodyValue(list)
+                .bodyValue(list.stream().map(m -> ProjectResponse.builder()
+                	.projectId(m.getProjectId())
+                	.projectName(m.getProjectName())
+                	.description(m.getDescription())
+                	.build())
+                )
 	        )				
-			.onErrorResume(RuntimeException.class, ex ->		        	
+			.onErrorResume(RuntimeException.class, ex ->
             	ServerResponse.status(HttpStatus.INTERNAL_SERVER_ERROR)
 	            	.contentType(MediaType.APPLICATION_JSON)
 	                .bodyValue(Map.of("message", ex.getMessage()))

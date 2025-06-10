@@ -20,7 +20,7 @@ public class ProjectService {
 	
 	private final ProjectRepository projectRepository;	
 	
-	public Flux<ProjectEntity> findAll(){
+	public Flux<ProjectEntity> findAll(){				
 		return projectRepository.findAll();
 	}
 	

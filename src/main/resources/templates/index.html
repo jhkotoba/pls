@@ -81,7 +81,7 @@
 				<li>결과 아이템 2</li>
 				<li>결과 아이템 3</li>
 			</ul>
-		</section>		
+		</section>
 	</main>
 	<footer></footer>
 </body>
@@ -93,7 +93,7 @@
 <script type="text/javascript" src="/script/config.js"></script>
 <script type="text/javascript" src="/script/tag.js"></script>
 <script th:inline="javascript">
-(function(p){	
+(function(p){
 	
 	p.reference = {
 		search: {
@@ -107,10 +107,10 @@
 	};
 	
 	p.dialog = {		
-		project: new Project(),
-		detail: new Detail(),
-		detailInfo: new DetailInfo(),
-		tag: new Tag()
+		project: null,
+		detail: null,
+		detailInfo: null,
+		tag: null
 	};
 	
 	p.button = {
@@ -134,9 +134,10 @@
 			element: null,
 			change: e => console.log(e),
 			find: () => fetch('/project/find'),
-			data: null,
+			data: [],
 			get: () => this.data,			
 			create: function(pData){
+				
 				let el = p.select.project.element;
 				
 				if(pData){
@@ -153,8 +154,21 @@
 					option.textContent = item.projectName;
 					el.appendChild(option);
 				}
+				
+				p.dialog.project = new Project({
+					data: p.select.project.data,
+					close: function(){
+						
+						
+					}
+				});
+				
+				if(p.select.project.data.length < 1){
+					window.alert('Project registration required');
+					p.dialog.project.open({action:'INIT'});
+				}
 			}
-		}	
+		}
 	}
 	
 	Object.values(p.button).forEach(function(btn){
@@ -176,12 +190,12 @@
 			const res = await m.find();
 			const data = await res.json();
 			m.data = data;
-			console.log('m:', m);
 			return m;
 		}catch (e) {
 			console.error(`fetch error for ${m.id}:`, e);
 		}
-	})).then(values => values.forEach(v => v.create()));
+	}))
+	.then(values => values.forEach(v => v.create()));
 	
 })({});
 </script>

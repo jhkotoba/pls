@@ -2,13 +2,13 @@ class Project {
 	
 	constructor(parameter){
 		
-		console.log('parameter:', parameter);
+		parameter = parameter || {};
 		
 		this.element = {};
 		this.el = this.element;
 		this.grid = null;
 		this.isInit = false;
-		this.data = null;	
+		this.data = null;
 		
 		
 		if(typeof parameter?.close === 'function'){
@@ -16,12 +16,11 @@ class Project {
 		}else{
 			this.fnClose = () => {};
 		}
+		
+		this.data = parameter.data;
 
 		this.#createDialog();
 		this.#createEvent();
-		
-		
-		
 	}
 	
 	call = (p) => this.open(p);
@@ -39,43 +38,19 @@ class Project {
 	
     add = () => this.grid.prependRow();
 
-    //remove = row => this.grid.markDelete(row);
-
     apply = async () => {
 		
-		const data = this.grid.getData();
-		console.log('data:', data);
-		
+		const data = this.grid.getData();		
 		let response = await fetch('/project/apply-find', {
             method:'POST',
-            headers:{'Content-Type':'application/json'},
-            body: JSON.stringify(data)
+            headers:{'Content-Type':'application/json', 'Accept': 'application/json'},
+            body: JSON.stringify({list: data})
         });
 		
 		const list = await response.json();
 		list.forEach(f => f._status = 'SELECT');
-		
+		console.log('list:', list);
 		this.grid.setData(list);
-		
-        /*const data = this.grid.getData();
-        for(const row of data){
-            if(row._status === 'INSERT' || row._status === 'UPDATE'){
-                response = await fetch('/project/apply-find', {
-                    method:'POST',
-                    headers:{'Content-Type':'application/json'},
-                    body: JSON.stringify(row)
-                });
-            }else if(row._status === 'DELETE' && row.projectId){
-                await fetch(`/project/${row.projectId}`, {method:'DELETE'});
-            }
-        }
-        const res = await fetch('/project/find');
-        const list = await res.json();
-        list.forEach(f => f._status = 'SELECT');
-        this.grid.data = list;
-        this.grid.setData(list);
-        this.isInit = false;
-        this.el.dialog.close();*/
     };
 	
 	#createDialog(){
@@ -117,12 +92,10 @@ class Project {
 		this.el.dialog.appendChild(this.el.form);
 		document.body.appendChild(this.el.dialog);
 		
-		console.log('this.data:', this.data);
-		
         this.grid = new window.sGrid({
             target: this.el.grid,
             fields: [
-                {title:'ID', name:'projectId', width:'80px', type:'text'},
+                {title:'순번', sequence: true},
                 {title:'프로젝트', name:'projectName', width:'150px', type:'input'},
                 {title:'설명', name:'description', type:'input'},
                 {title:'삭제', name:'delete', type:'button', width:'60px', label:'삭제'}

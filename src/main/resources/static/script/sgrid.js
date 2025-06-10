@@ -45,14 +45,10 @@ window.sGrid = class simpleGrid {
 		this.event = parameter.event || {};
 				
 		this.#create(parameter);
-	}
+	}	
 	
-	#getRowIdx(){
-		this.rowIdx++;
-		return this.rowIdx;
-	}
 	
-	setData(data){
+	setData(data){		
 		if(typeof data === 'object' && data.length !== undefined){
 			this.data = data.map(m => {
 				m._indexx = this.#getRowIdx();
@@ -60,8 +56,7 @@ window.sGrid = class simpleGrid {
 			});
 			
 			this.#refresh();
-		}
-		
+		}		
 	}
 	
     prependRow = () => this.#createBodyNewRow();   
@@ -70,6 +65,11 @@ window.sGrid = class simpleGrid {
 	
 	clear(){
 		
+	}
+	
+	#getRowIdx(){
+		this.rowIdx++;
+		return this.rowIdx;
 	}
 	
 	#create(){
@@ -141,7 +141,6 @@ window.sGrid = class simpleGrid {
 		let tr = document.createElement('tr');
 		tr.className = row._status?.toLocaleLowerCase();
 		tr.setAttribute('data-index', row._index);
-        //this.fields.forEach((field, fIdx) => tr.appendChild(this.#createBodyRowCell(row, rIdx, field, tr)));
 		this.fields.forEach(field => tr.appendChild(this.#createBodyRowCell(row, field, tr)));
 
         return tr;
@@ -179,20 +178,24 @@ window.sGrid = class simpleGrid {
 		    tag = document.createElement('button');
 		    tag.textContent = field.label || 'Button';
 			tag.setAttribute('data-name', field.name);
-			tag.setAttribute('data-row-index', row._index);
-		    /*tag.addEventListener('click', ev => {
-            	ev.preventDefault();
-	            if(typeof field.onClick === 'function'){
-					field.onClick({row, rIdx, field, grid:this});
-	            }
-		    });*/
+			tag.setAttribute('data-row-index', row._index);		    
 		    break;
+		default:
+			if(field.sequence === true){
+				tag = document.createElement('span');
+				tag.setAttribute('data-name', field.name);
+				tag.setAttribute('data-row-index', row._index);
+				tag.textContent = row._index;
+			}
+			break;
         }
 
         div.appendChild(tag);
         td.appendChild(div);
 
 		field.width ? td.style.width = field.width : null;
+		
+		td.setAttribute('data-td-name', field.name);
         return td;
     }
 	
