@@ -39,18 +39,18 @@ class Project {
     add = () => this.grid.prependRow();
 
     apply = async () => {
-		
-		const data = this.grid.getData();		
-		let response = await fetch('/project/apply-find', {
+
+                const data = this.grid.getData();
+                let response = await fetch('/project/apply-find', {
             method:'POST',
             headers:{'Content-Type':'application/json', 'Accept': 'application/json'},
             body: JSON.stringify({list: data})
         });
-		
-		const list = await response.json();
-		list.forEach(f => f._status = 'SELECT');
-		console.log('list:', list);
-		this.grid.setData(list);
+
+                const list = await response.json();
+                list.forEach(f => f._status = 'SELECT');
+                console.log('list:', list);
+                this.grid.setData(list);
     };
 	
 	#createDialog(){
@@ -101,15 +101,30 @@ class Project {
                 {title:'삭제', name:'delete', type:'button', width:'60px', label:'삭제'}
             ],
             data: this.data,
-			event: {
-				click: {
-					delete: (p, e) => {
-						console.log('event.click.delete:', p, e);
-					}
-				}
-			}
+                        event: {
+                                click: {
+                                        delete: (ev, opt) => {
+                                                ev.preventDefault();
+
+                                                const rowIdx = opt.rowIdx;
+                                                const row = this.grid.getData().find(r => String(r._index) === String(rowIdx));
+                                                if(!row) return;
+
+                                                if(row._status === 'INSERT') {
+                                                        // remove newly inserted row immediately
+                                                        this.grid.data = this.grid.data.filter(r => r._index !== row._index);
+                                                        const tr = ev.target.closest('tr');
+                                                        if(tr) tr.remove();
+                                                } else {
+                                                        row._status = 'DELETE';
+                                                        const tr = this.grid.el.bodyTb.querySelector(`tr[data-index='${row._index}']`);
+                                                        if(tr) tr.className = 'delete';
+                                                }
+                                        }
+                                }
+                        }
         });
-	}
+        }
 
 	#createEvent(){
 		
