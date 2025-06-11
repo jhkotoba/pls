@@ -95,9 +95,10 @@ class Project {
         this.grid = new window.sGrid({
             target: this.el.grid,
             fields: [
-                {title:'순번', sequence: true},
+                {title:'순번', sequence: true, width:'50px'},
                 {title:'프로젝트', name:'projectName', width:'150px', type:'input'},
                 {title:'설명', name:'description', type:'input'},
+				{title:'사용여부', name:'useYn', type:'text', width:'90px'},
                 {title:'삭제', name:'delete', type:'button', width:'60px', label:'삭제'}
             ],
             data: this.data,

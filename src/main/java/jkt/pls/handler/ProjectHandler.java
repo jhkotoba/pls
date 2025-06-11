@@ -22,22 +22,23 @@ public class ProjectHandler {
 	
 	public Mono<ServerResponse> findAll(ServerRequest serverRequest){
 		
-	return projectService.findAll()
-		.collectList()
-		.flatMap(list -> ServerResponse.ok()
-            .contentType(MediaType.APPLICATION_JSON)
-            .bodyValue(list.stream().map(m -> ProjectResponse.builder()
-            	.projectId(m.getProjectId())
-            	.projectName(m.getProjectName())
-            	.description(m.getDescription())
-            	.build())
-            )
-        )
-        .onErrorResume(RuntimeException.class, ex ->		        	
-            ServerResponse.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .contentType(MediaType.APPLICATION_JSON)
-                .bodyValue(Map.of("message", ex.getMessage()))
-        );
+		return projectService.findAll()
+			.collectList()
+			.flatMap(list -> ServerResponse.ok()
+	            .contentType(MediaType.APPLICATION_JSON)
+	            .bodyValue(list.stream().map(m -> ProjectResponse.builder()
+	            	.projectId(m.getProjectId())
+	            	.projectName(m.getProjectName())
+	            	.description(m.getDescription())
+	            	.useYn(m.getUseYn())
+	            	.build())
+	            )
+	        )
+	        .onErrorResume(RuntimeException.class, ex ->		        	
+	            ServerResponse.status(HttpStatus.INTERNAL_SERVER_ERROR)
+	                .contentType(MediaType.APPLICATION_JSON)
+	                .bodyValue(Map.of("message", ex.getMessage()))
+	        );
 	}
 
     public Mono<ServerResponse> apply(ServerRequest serverRequest){

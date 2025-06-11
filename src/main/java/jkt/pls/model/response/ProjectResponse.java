@@ -12,4 +12,5 @@ public class ProjectResponse {
 	private String projectId;
 	private String projectName;
 	private String description;
+	private String useYn;
 }
