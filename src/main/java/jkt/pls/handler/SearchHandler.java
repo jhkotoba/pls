@@ -12,18 +12,20 @@ import jkt.pls.model.request.InsertRequest;
 import jkt.pls.model.request.SearchRequest;
 import jkt.pls.service.SearchService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class SearchHandler {
 	
 	private final SearchService searchService;
 	
-	public Mono<ServerResponse> list(ServerRequest serverRequest){
-		
-		System.out.println("SearchHandler.list");
-		String keyword = serverRequest.queryParam("keyword").orElse("");
+        public Mono<ServerResponse> list(ServerRequest serverRequest){
+
+                log.info("SearchHandler.list");
+                String keyword = serverRequest.queryParam("keyword").orElse("");
 		
 		return searchService.list(new SearchRequest())
 			.collectList()
@@ -78,9 +80,9 @@ public class SearchHandler {
 		            .bodyValue(s)
 			)
 			// 오류 예외처리
-			.onErrorResume(RuntimeException.class, ex -> {
-				ex.printStackTrace();
-				return ServerResponse.status(HttpStatus.UNAUTHORIZED)
+                        .onErrorResume(RuntimeException.class, ex -> {
+                                log.error("Insert failed", ex);
+                                return ServerResponse.status(HttpStatus.UNAUTHORIZED)
 					.contentType(MediaType.APPLICATION_JSON)
 					.bodyValue(Map.of(
 							"message", ex.getMessage()

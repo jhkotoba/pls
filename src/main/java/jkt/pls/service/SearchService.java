@@ -7,11 +7,13 @@ import jkt.pls.model.request.SearchRequest;
 import jkt.pls.repository.ProjectRepository;
 import jkt.pls.repository.SearchRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class SearchService {
 	
 //	@Value("${custom.document.path}")
@@ -23,8 +25,8 @@ public class SearchService {
 	
 	public Flux<?> list(SearchRequest request){
 		
-		long cnt = 0;
-		System.out.println("SearchService.list");
+                long cnt = 0;
+                log.info("SearchService.list");
 		
 		return searchRepository.findAll();
 		
