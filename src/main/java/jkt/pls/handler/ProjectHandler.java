@@ -1,4 +1,5 @@
 package jkt.pls.handler;
+// Updated indentation to use tabs
 
 import java.util.Map;
 
@@ -25,55 +26,55 @@ public class ProjectHandler {
 	return projectService.findAll()
 		.collectList()
 		.flatMap(list -> ServerResponse.ok()
-            .contentType(MediaType.APPLICATION_JSON)
-            .bodyValue(list.stream().map(m -> ProjectResponse.builder()
-            	.projectId(m.getProjectId())
-            	.projectName(m.getProjectName())
-            	.description(m.getDescription())
-            	.build())
-            )
-        )
-        .onErrorResume(RuntimeException.class, ex ->		        	
-            ServerResponse.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .contentType(MediaType.APPLICATION_JSON)
-                .bodyValue(Map.of("message", ex.getMessage()))
-        );
+			.contentType(MediaType.APPLICATION_JSON)
+			.bodyValue(list.stream().map(m -> ProjectResponse.builder()
+				.projectId(m.getProjectId())
+				.projectName(m.getProjectName())
+				.description(m.getDescription())
+				.build())
+			)
+		)
+		.onErrorResume(RuntimeException.class, ex ->		        	
+			ServerResponse.status(HttpStatus.INTERNAL_SERVER_ERROR)
+				.contentType(MediaType.APPLICATION_JSON)
+				.bodyValue(Map.of("message", ex.getMessage()))
+		);
 	}
 
-    public Mono<ServerResponse> apply(ServerRequest serverRequest){
+	public Mono<ServerResponse> apply(ServerRequest serverRequest){
 	
 		return serverRequest.bodyToMono(ProjectApplyRequest.class)
 			.flatMap(projectService::apply)
 			.flatMap(p -> ServerResponse.ok()
-		            .contentType(MediaType.APPLICATION_JSON)		            
-		            .bodyValue(p)
+					.contentType(MediaType.APPLICATION_JSON)		            
+					.bodyValue(p)
 			)
 			.onErrorResume(RuntimeException.class, ex ->		        	
-            	ServerResponse.status(HttpStatus.INTERNAL_SERVER_ERROR)
-	            	.contentType(MediaType.APPLICATION_JSON)
-	                .bodyValue(Map.of("message", ex.getMessage()))
+				ServerResponse.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.contentType(MediaType.APPLICATION_JSON)
+					.bodyValue(Map.of("message", ex.getMessage()))
 			);
-    }
-    
-    public Mono<ServerResponse> applyAfterFindAll(ServerRequest serverRequest){
+	}
+	
+	public Mono<ServerResponse> applyAfterFindAll(ServerRequest serverRequest){
 		
 		return serverRequest.bodyToMono(ProjectApplyRequest.class)
 			.flatMap(projectService::apply)
 			.then(projectService.findAll().collectList())
 			.flatMap(list -> ServerResponse.ok()
-                .contentType(MediaType.APPLICATION_JSON)
-                .bodyValue(list.stream().map(m -> ProjectResponse.builder()
-                	.projectId(m.getProjectId())
-                	.projectName(m.getProjectName())
-                	.description(m.getDescription())
-                	.build())
-                )
-	        )				
+				.contentType(MediaType.APPLICATION_JSON)
+				.bodyValue(list.stream().map(m -> ProjectResponse.builder()
+					.projectId(m.getProjectId())
+					.projectName(m.getProjectName())
+					.description(m.getDescription())
+					.build())
+				)
+			)				
 			.onErrorResume(RuntimeException.class, ex ->
-            	ServerResponse.status(HttpStatus.INTERNAL_SERVER_ERROR)
-	            	.contentType(MediaType.APPLICATION_JSON)
-	                .bodyValue(Map.of("message", ex.getMessage()))
+				ServerResponse.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.contentType(MediaType.APPLICATION_JSON)
+					.bodyValue(Map.of("message", ex.getMessage()))
 			);
-    }        
+	}        
 
 }

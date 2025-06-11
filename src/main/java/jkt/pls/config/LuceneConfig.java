@@ -1,4 +1,5 @@
 package jkt.pls.config;
+// Updated indentation to use tabs
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -19,34 +20,34 @@ import org.springframework.context.annotation.Configuration;
 public class LuceneConfig {
 
 	@Bean
-    protected Directory luceneDirectory() throws IOException {
+	protected Directory luceneDirectory() throws IOException {
 		Path indexPath = Paths.get("./data/lucene");
-	    return FSDirectory.open(indexPath);
-    }
+		return FSDirectory.open(indexPath);
+	}
 	
 	@Bean
 	protected Analyzer luceneAnalyzer() throws IOException {
 		return CustomAnalyzer.builder()
-	            .withTokenizer("standard")
-	            .addTokenFilter("lowercase")
-	            .addTokenFilter("stop")
-	            .addTokenFilter("porterStem")
-	            .addTokenFilter("length", "min", "3", "max", "50")
-	            .addTokenFilter("koreanPartOfSpeechStop")
-	            .build();
-    }
+				.withTokenizer("standard")
+				.addTokenFilter("lowercase")
+				.addTokenFilter("stop")
+				.addTokenFilter("porterStem")
+				.addTokenFilter("length", "min", "3", "max", "50")
+				.addTokenFilter("koreanPartOfSpeechStop")
+				.build();
+	}
 	
 	@Bean
 	protected IndexWriter indexWriter(Directory luceneDirectory, Analyzer luceneAnalyzer) throws IOException {
-        IndexWriterConfig cfg = new IndexWriterConfig(luceneAnalyzer);
-        IndexWriter writer = new IndexWriter(luceneDirectory, cfg);
-        writer.commit();
-        return writer;
-    }
+		IndexWriterConfig cfg = new IndexWriterConfig(luceneAnalyzer);
+		IndexWriter writer = new IndexWriter(luceneDirectory, cfg);
+		writer.commit();
+		return writer;
+	}
 
 	@Bean
 	protected IndexSearcher indexSearcher(IndexWriter indexWriter) throws IOException {
-        DirectoryReader reader = DirectoryReader.open(indexWriter);
-        return new IndexSearcher(reader);
-    }
+		DirectoryReader reader = DirectoryReader.open(indexWriter);
+		return new IndexSearcher(reader);
+	}
 }

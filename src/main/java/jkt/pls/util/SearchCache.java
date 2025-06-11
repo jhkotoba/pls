@@ -1,4 +1,5 @@
 package jkt.pls.util;
+// Updated indentation to use tabs
 
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -12,29 +13,29 @@ public class SearchCache {
 	private static final int MAX_ENTRIES = 100;
 	
 	private final Map<String, String> cache = Collections.synchronizedMap(
-        new LinkedHashMap<String, String>(MAX_ENTRIES, 0.75f, true) {
-        	
+		new LinkedHashMap<String, String>(MAX_ENTRIES, 0.75f, true) {
+			
 			private static final long serialVersionUID = 1L;
 
 			@Override
-            protected boolean removeEldestEntry(Map.Entry<String, String> eldest) {                
-                return size() > MAX_ENTRIES;
-            }
-        }
-    );
+			protected boolean removeEldestEntry(Map.Entry<String, String> eldest) {                
+				return size() > MAX_ENTRIES;
+			}
+		}
+	);
 	
 	
-    public String get(String key) {
-        return this.cache.get(key);
-    }
-    
-    
-    public void put(String key, String value) {
-    	this.cache.put(key, value);
-    }
+	public String get(String key) {
+		return this.cache.get(key);
+	}
+	
+	
+	public void put(String key, String value) {
+		this.cache.put(key, value);
+	}
 
-    
-    public void clear() {
-    	this.cache.clear();
-    }
+	
+	public void clear() {
+		this.cache.clear();
+	}
 }

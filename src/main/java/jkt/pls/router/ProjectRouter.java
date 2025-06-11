@@ -1,4 +1,5 @@
 package jkt.pls.router;
+// Updated indentation to use tabs
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,13 +18,13 @@ public class ProjectRouter {
 	protected RouterFunction<ServerResponse> project(ProjectHandler handler){
 		
 		return RouterFunctions
-            .route(RequestPredicates.GET("/project/find")
-            	.and(RequestPredicates.accept(MediaType.APPLICATION_JSON)), handler::findAll)
-            .andRoute(RequestPredicates.POST("/project/apply")
-            	.and(RequestPredicates.accept(MediaType.APPLICATION_JSON)), handler::apply)
-            .andRoute(RequestPredicates.POST("/project/apply-find")
-            	.and(RequestPredicates.accept(MediaType.APPLICATION_JSON)), handler::applyAfterFindAll);
-            
+			.route(RequestPredicates.GET("/project/find")
+				.and(RequestPredicates.accept(MediaType.APPLICATION_JSON)), handler::findAll)
+			.andRoute(RequestPredicates.POST("/project/apply")
+				.and(RequestPredicates.accept(MediaType.APPLICATION_JSON)), handler::apply)
+			.andRoute(RequestPredicates.POST("/project/apply-find")
+				.and(RequestPredicates.accept(MediaType.APPLICATION_JSON)), handler::applyAfterFindAll);
+			
 
 	}
 }

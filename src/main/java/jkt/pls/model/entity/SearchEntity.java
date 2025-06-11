@@ -1,4 +1,5 @@
 package jkt.pls.model.entity;
+// Updated indentation to use tabs
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;

@@ -1,4 +1,5 @@
 package jkt.pls.handler;
+// Updated indentation to use tabs
 
 import java.util.Map;
 
@@ -28,15 +29,15 @@ public class SearchHandler {
 		return searchService.list(new SearchRequest())
 			.collectList()
 			.flatMap(list ->
-            ServerResponse.ok()
-	                .contentType(MediaType.APPLICATION_JSON)
-	                .bodyValue(list)
-	        )
-	        .onErrorResume(RuntimeException.class, ex ->		        	
-	            ServerResponse.status(HttpStatus.INTERNAL_SERVER_ERROR)
-	                .contentType(MediaType.APPLICATION_JSON)
-	                .bodyValue(Map.of("message", ex.getMessage()))
-	        );
+			ServerResponse.ok()
+					.contentType(MediaType.APPLICATION_JSON)
+					.bodyValue(list)
+			)
+			.onErrorResume(RuntimeException.class, ex ->		        	
+				ServerResponse.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.contentType(MediaType.APPLICATION_JSON)
+					.bodyValue(Map.of("message", ex.getMessage()))
+			);
 		
 //		return serverRequest.bodyToMono(SearchRequest.class)
 //				.map(m -> {
@@ -74,8 +75,8 @@ public class SearchHandler {
 			})
 			.flatMap(searchService::insert)
 			.flatMap(s -> ServerResponse.ok()
-		            .contentType(MediaType.APPLICATION_JSON)
-		            .bodyValue(s)
+					.contentType(MediaType.APPLICATION_JSON)
+					.bodyValue(s)
 			)
 			// 오류 예외처리
 			.onErrorResume(RuntimeException.class, ex -> {
@@ -84,7 +85,7 @@ public class SearchHandler {
 					.contentType(MediaType.APPLICATION_JSON)
 					.bodyValue(Map.of(
 							"message", ex.getMessage()
-		                ));
+						));
 			});
 		
 	}
@@ -100,14 +101,14 @@ public class SearchHandler {
 		return searchService.findProject()
 			.collectList()
 			.flatMap(list -> ServerResponse.ok()
-	                .contentType(MediaType.APPLICATION_JSON)
-	                .bodyValue(list)
-	        )
-	        .onErrorResume(RuntimeException.class, ex ->		        	
-	            ServerResponse.status(HttpStatus.INTERNAL_SERVER_ERROR)
-	                .contentType(MediaType.APPLICATION_JSON)
-	                .bodyValue(Map.of("message", ex.getMessage()))
-	        );
+					.contentType(MediaType.APPLICATION_JSON)
+					.bodyValue(list)
+			)
+			.onErrorResume(RuntimeException.class, ex ->		        	
+				ServerResponse.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.contentType(MediaType.APPLICATION_JSON)
+					.bodyValue(Map.of("message", ex.getMessage()))
+			);
 	}
 	
 }

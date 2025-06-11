@@ -1,4 +1,5 @@
 package jkt.pls.model.entity;
+// Updated indentation to use tabs
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.PersistenceCreator;
@@ -22,7 +23,7 @@ import lombok.ToString;
 public class ProjectEntity implements Persistable<String> {
 
 	@Transient
-    private boolean newFlag = false;
+	private boolean newFlag = false;
 	
 	@Id
 	@Column("PROJECT_ID")
@@ -45,19 +46,19 @@ public class ProjectEntity implements Persistable<String> {
 	}
 	
 	@PersistenceCreator
-    public ProjectEntity(String projectId, String projectName, String description) {
-        this.projectId = projectId;
-        this.projectName = projectName;
-        this.description = description;
-        this.newFlag = false;
-    }
+	public ProjectEntity(String projectId, String projectName, String description) {
+		this.projectId = projectId;
+		this.projectName = projectName;
+		this.description = description;
+		this.newFlag = false;
+	}
 	
 	@Builder
-    public ProjectEntity(String projectId, String projectName, String description, boolean newFlag) {
-        this.projectId = projectId;
-        this.projectName = projectName;
-        this.description = description;
-        this.newFlag = newFlag;
-    }
+	public ProjectEntity(String projectId, String projectName, String description, boolean newFlag) {
+		this.projectId = projectId;
+		this.projectName = projectName;
+		this.description = description;
+		this.newFlag = newFlag;
+	}
 	
 }

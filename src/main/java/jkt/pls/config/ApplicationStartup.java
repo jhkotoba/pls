@@ -1,4 +1,5 @@
 package jkt.pls.config;
+// Updated indentation to use tabs
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -25,20 +26,20 @@ public class ApplicationStartup implements ApplicationListener<ApplicationReadyE
 	public void onApplicationEvent(ApplicationReadyEvent event) {
 		searchRepository.findAll()
 			.doOnNext(entity -> {
-	            try {
-	                Document doc = new Document();
-	                doc.add(new StringField("searchId", entity.getSearchId().toString(), Field.Store.YES));
-	                doc.add(new TextField("token", entity.getToken(), Field.Store.NO));
-	                writer.addDocument(doc);
-	            } catch (IOException e) {
-	                throw new UncheckedIOException(e);
-	            }
-	        })
-	        .doOnComplete(() -> {
-	            try { writer.commit(); }
-	            catch (IOException e) { throw new UncheckedIOException(e); }
-	        })
-	        .subscribe();
+				try {
+					Document doc = new Document();
+					doc.add(new StringField("searchId", entity.getSearchId().toString(), Field.Store.YES));
+					doc.add(new TextField("token", entity.getToken(), Field.Store.NO));
+					writer.addDocument(doc);
+				} catch (IOException e) {
+					throw new UncheckedIOException(e);
+				}
+			})
+			.doOnComplete(() -> {
+				try { writer.commit(); }
+				catch (IOException e) { throw new UncheckedIOException(e); }
+			})
+			.subscribe();
 	}
 
 }
