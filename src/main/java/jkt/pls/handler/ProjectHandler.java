@@ -72,8 +72,21 @@ public class ProjectHandler {
 			.onErrorResume(RuntimeException.class, ex ->
             	ServerResponse.status(HttpStatus.INTERNAL_SERVER_ERROR)
 	            	.contentType(MediaType.APPLICATION_JSON)
-	                .bodyValue(Map.of("message", ex.getMessage()))
-			);
-    }        
+                        .bodyValue(Map.of("message", ex.getMessage()))
+                        );
+    }
+
+    public Mono<ServerResponse> delete(ServerRequest serverRequest){
+                String projectId = serverRequest.pathVariable("projectId");
+                return projectService.delete(projectId)
+                                .then(ServerResponse.ok()
+                                                .contentType(MediaType.APPLICATION_JSON)
+                                                .build())
+                                .onErrorResume(RuntimeException.class, ex ->
+                                                ServerResponse.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                                                                .contentType(MediaType.APPLICATION_JSON)
+                                                                .bodyValue(Map.of("message", ex.getMessage()))
+                                );
+    }
 
 }

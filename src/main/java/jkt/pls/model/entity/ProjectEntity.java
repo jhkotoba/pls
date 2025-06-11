@@ -31,8 +31,11 @@ public class ProjectEntity implements Persistable<String> {
 	@Column("PROJECT_NAME")
 	private String projectName;
 	
-	@Column("DESCRIPTION")
-	private String description;
+    @Column("DESCRIPTION")
+    private String description;
+
+    @Column("USE_YN")
+    private String useYn;
 
 	@Override
 	public String getId() {
@@ -45,18 +48,20 @@ public class ProjectEntity implements Persistable<String> {
 	}
 	
 	@PersistenceCreator
-    public ProjectEntity(String projectId, String projectName, String description) {
+    public ProjectEntity(String projectId, String projectName, String description, String useYn) {
         this.projectId = projectId;
         this.projectName = projectName;
         this.description = description;
+        this.useYn = useYn;
         this.newFlag = false;
     }
 	
 	@Builder
-    public ProjectEntity(String projectId, String projectName, String description, boolean newFlag) {
+    public ProjectEntity(String projectId, String projectName, String description, String useYn, boolean newFlag) {
         this.projectId = projectId;
         this.projectName = projectName;
         this.description = description;
+        this.useYn = useYn;
         this.newFlag = newFlag;
     }
 	

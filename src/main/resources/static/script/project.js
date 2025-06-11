@@ -101,13 +101,23 @@ class Project {
                 {title:'삭제', name:'delete', type:'button', width:'60px', label:'삭제'}
             ],
             data: this.data,
-			event: {
-				click: {
-					delete: (p, e) => {
-						console.log('event.click.delete:', p, e);
-					}
-				}
-			}
+            event: {
+                click: {
+                    delete: async (ev, {rowIdx}) => {
+                        ev.preventDefault();
+                        const row = this.grid.getData().find(r => String(r._index) === String(rowIdx));
+                        if(!row) return;
+                        if(row._status === 'INSERT'){
+                            this.grid.removeRow(rowIdx);
+                            return;
+                        }
+                        if(!row.projectId) return;
+                        if(!confirm('삭제하시겠습니까?')) return;
+                        await fetch(`/project/delete/${row.projectId}`, {method:'POST', headers:{'Accept':'application/json'}});
+                        this.grid.removeRow(rowIdx);
+                    }
+                }
+            }
         });
 	}
 

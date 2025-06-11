@@ -22,7 +22,9 @@ public class ProjectRouter {
             .andRoute(RequestPredicates.POST("/project/apply")
             	.and(RequestPredicates.accept(MediaType.APPLICATION_JSON)), handler::apply)
             .andRoute(RequestPredicates.POST("/project/apply-find")
-            	.and(RequestPredicates.accept(MediaType.APPLICATION_JSON)), handler::applyAfterFindAll);
+                .and(RequestPredicates.accept(MediaType.APPLICATION_JSON)), handler::applyAfterFindAll)
+            .andRoute(RequestPredicates.POST("/project/delete/{projectId}")
+                .and(RequestPredicates.accept(MediaType.APPLICATION_JSON)), handler::delete);
             
 
 	}

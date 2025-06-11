@@ -59,9 +59,20 @@ window.sGrid = class simpleGrid {
 		}		
 	}
 	
-    prependRow = () => this.#createBodyNewRow();   
+    prependRow = () => this.#createBodyNewRow();
 
     getData = () => this.data;
+
+    removeRow(rowIdx){
+        const idx = this.data.findIndex(d => String(d._index) === String(rowIdx));
+        if(idx > -1){
+            this.data.splice(idx,1);
+        }
+        const tr = this.el.bodyTb.querySelector(`tr[data-index="${rowIdx}"]`);
+        if(tr){
+            this.el.bodyTb.removeChild(tr);
+        }
+    }
 	
 	clear(){
 		
