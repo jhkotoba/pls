@@ -120,11 +120,9 @@
 	 *
 	 */
 	const createProjectSelectBox = function({storageName, hookName, data}){
-		console.log('------------------------ createProjectSelectBox -------------------');
 		let el = document.getElementById('searchProject');
-		console.log('el:', el);
 		while(el.hasChildNodes()){
-            this.el.removeChild(el.firstChild);
+            el.removeChild(el.firstChild);
         }		
 		for(let item of data){		
 			option = document.createElement('option');
