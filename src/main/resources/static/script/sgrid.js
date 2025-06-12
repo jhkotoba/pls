@@ -45,18 +45,17 @@ window.sGrid = class simpleGrid {
 		this.event = parameter.event || {};
 				
 		this.#create(parameter);
-	}	
+	}
 	
-	
-	setData(data){		
-		if(typeof data === 'object' && data.length !== undefined){
-			this.data = data.map(m => {
-				m._indexx = this.#getRowIdx();
-				m._status = 'SELECT';
+	setData(data){
+		if (Array.isArray(data)) {
+			this.data = data.map(item => {
+				item._index = this.#getRowIdx();
+				item._status = 'SELECT';
+				return item;
 			});
-			
-			this.#refresh();
-		}		
+		this.#refresh();
+		}
 	}
 	
     prependRow = () => this.#createBodyNewRow();   
