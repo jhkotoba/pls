@@ -47,14 +47,17 @@ window.sGrid = class simpleGrid {
 		this.#create(parameter);
 	}
 	
-	setData(data){
+	setData(data, isReset){
+		if(isReset === true){
+			this.rowIdx = 0;
+		}		
 		if (Array.isArray(data)) {
 			this.data = data.map(item => {
 				item._index = this.#getRowIdx();
 				item._status = 'SELECT';
 				return item;
 			});
-		this.#refresh();
+			this.#refresh();
 		}
 	}
 	

@@ -9,10 +9,7 @@ class Detail {
 		this.#createEvent();
 	}
 	
-	call(p){
-		this.open(p);	
-	}
-	
+	call = (p) => this.open(p);
 	open(p){
 		
 		this.editor.setMarkdown('');

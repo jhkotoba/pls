@@ -86,16 +86,85 @@
 	<footer></footer>
 </body>
 
+
+
+
+<script type="text/javascript" src="/script/storage.js"></script>
 <script type="text/javascript" src="/script/search.js"></script>
 <script type="text/javascript" src="/script/project.js"></script>
 <script type="text/javascript" src="/script/detail.js"></script>
 <script type="text/javascript" src="/script/detail-info.js"></script>
 <script type="text/javascript" src="/script/config.js"></script>
 <script type="text/javascript" src="/script/tag.js"></script>
+
+
+
+
 <script th:inline="javascript">
 (function(p){
 	
-	p.reference = {
+	p.dialog = {project: null, detail: null, detailInfo: null, tag: null};
+	//p.select = {};
+	
+	/**
+	 *
+	 */
+	const createClickEvent = function(){
+		
+		// 
+		document.getElementById('btnOpenProject').addEventListener('click', ev => p.dialog.project.open());
+		
+	}
+	
+	/**
+	 *
+	 */
+	const createProjectSelectBox = function({storageName, hookName, data}){
+		console.log('------------------------ createProjectSelectBox -------------------');
+		let el = document.getElementById('searchProject');
+		console.log('el:', el);
+		while(el.hasChildNodes()){
+            this.el.removeChild(el.firstChild);
+        }		
+		for(let item of data){		
+			option = document.createElement('option');
+			option.setAttribute('value', item.projectId);
+			option.textContent = item.projectName;
+			el.appendChild(option);
+		}
+	}
+	
+	/**
+	 *
+	 */
+	const storage = new Storage({
+		data: [
+			{name:'project', url: '/project/find'},			
+		],
+		then: () => {
+			
+			storage.appendHook('project', [
+				{name:'project-select-box', hook: createProjectSelectBox}
+			]);			
+			p.dialog.project = new Project(storage);
+			
+			
+			
+			
+			
+			createClickEvent();
+		}
+	});
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/* p.reference = {
 		search: {
 			handler: {
 				call: function(){
@@ -104,9 +173,11 @@
 				}
 			}
 		}
-	};
+	}; */
 	
-	p.dialog = {		
+	
+	
+	/* p.dialog = {		
 		project: null,
 		detail: null,
 		detailInfo: null,
@@ -195,7 +266,7 @@
 			console.error(`fetch error for ${m.id}:`, e);
 		}
 	}))
-	.then(values => values.forEach(v => v.create()));
+	.then(values => values.forEach(v => v.create())); */
 	
 })({});
 </script>

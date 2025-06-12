@@ -1,56 +1,47 @@
 class Project {
 	
-	constructor(parameter){
-		
-		parameter = parameter || {};
+	constructor(storage){
 		
 		this.element = {};
 		this.el = this.element;
 		this.grid = null;
 		this.isInit = false;
-		this.data = null;
-		
-		
-		if(typeof parameter?.close === 'function'){
-			this.fnClose = parameter.close;	
-		}else{
-			this.fnClose = () => {};
-		}
-		
-		this.data = parameter.data;
+		this.storage = storage;
 
 		this.#createDialog();
 		this.#createEvent();
+		
+		console.log(`this.storage.get('project'):`, this.storage.get('project'));
+		this.setData(this.storage.get('project'));
 	}
 	
-	call = (p) => this.open(p);
 	open(p){
 		this.element.dialog.showModal();
-		if(p.action === 'INIT'){
+		if(p?.action === 'INIT'){
 			this.isInit = true;
 		}
 	}
 	
 	setData(data){
-		this.data = data;
-		this.grid.setData(this.data);
+		this.storage.set('project', data);
+		this.grid.setData(this.storage.get('project'));
 	}
 	
     add = () => this.grid.prependRow();
 
     apply = async () => {
 
-                const data = this.grid.getData();
-                let response = await fetch('/project/apply-find', {
-            method:'POST',
-            headers:{'Content-Type':'application/json', 'Accept': 'application/json'},
-            body: JSON.stringify({list: data})
-        });
+		const data = this.grid.getData();
+		let response = await fetch('/project/apply-find', {
+	        method:'POST',
+	        headers:{'Content-Type':'application/json', 'Accept': 'application/json'},
+	        body: JSON.stringify({list: data})
+	    });
 
-                const list = await response.json();
-                list.forEach(f => f._status = 'SELECT');
-                console.log('list:', list);
-                this.grid.setData(list);
+        const list = await response.json();
+        list.forEach(f => f._status = 'SELECT');
+        this.grid.setData(list);
+		this.storage.set('project', list);
     };
 	
 	#createDialog(){
@@ -101,29 +92,27 @@ class Project {
                 {title:'삭제', name:'delete', type:'button', width:'60px', label:'삭제'}
             ],
             data: this.data,
-                        event: {
-                                click: {
-                                        delete: (ev, opt) => {
-                                                ev.preventDefault();
-
-                                                const rowIdx = opt.rowIdx;
-                                                const row = this.grid.getData().find(r => String(r._index) === String(rowIdx));
-                                                if(!row) return;
-
-                                                if(row._status === 'INSERT') {
-                                                        // remove newly inserted row immediately
-                                                        this.grid.data = this.grid.data.filter(r => r._index !== row._index);
-                                                        const tr = ev.target.closest('tr');
-                                                        if(tr) tr.remove();
-                                                } else {
-                                                        row._status = 'DELETE';
-                                                        const tr = this.grid.el.bodyTb.querySelector(`tr[data-index='${row._index}']`);
-                                                        if(tr) tr.className = 'delete';
-                                                }
-                                        }
-                                }
-                        }
-        });
+				event: {
+					click: {
+						delete: (ev, opt) => {
+							ev.preventDefault();
+							const rowIdx = opt.rowIdx;
+							const row = this.grid.getData().find(r => String(r._index) === String(rowIdx));
+							if(!row) return;
+							
+							if(row._status === 'INSERT') {
+							        this.grid.data = this.grid.data.filter(r => r._index !== row._index);
+							        const tr = ev.target.closest('tr');
+							        if(tr) tr.remove();
+							} else {
+							        row._status = 'DELETE';
+							        const tr = this.grid.el.bodyTb.querySelector(`tr[data-index='${row._index}']`);
+							        if(tr) tr.className = 'delete';
+							}
+						}
+					}
+				}
+        	});
         }
 
 	#createEvent(){
