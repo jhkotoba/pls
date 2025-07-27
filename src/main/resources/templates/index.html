@@ -97,29 +97,88 @@
 <script type="text/javascript" src="/script/config.js"></script>
 <script type="text/javascript" src="/script/tag.js"></script>
 
-
-
-
 <script th:inline="javascript">
+const p = {};
+const storage = new Storage({
+	data: [
+		{name:'project', url: '/project/find'},			
+	],
+	then: () => {
+		
+		storage.appendHook('project', [
+			{name:'project-select-box', hook: createProjectSelectBox}
+		]);	
+		
+		
+		init();
+		evnet();
+	}
+});
+
+function init(){
+	p.dialog = {
+		project: new Project(storage),
+		detail: new Detail(storage),
+		detailInfo: null,
+		tag: null
+	};
+}
+
+function event(){
+	
+	const click = [
+		{id: 'btnOpenProject', click: e => p.dialog.project.open()}, 
+		{id: 'btnOpenDetail', click: e => p.dialog.detail.open()}
+	];
+	
+	click.forEach(c => document.getElementById(c.id).addEventListener('click', c.click));
+	
+	/* Object.values(p.button).forEach(function(btn){
+		btn.element = document.getElementById(btn.id);
+		if(typeof btn.click === 'function'){
+			btn.element.addEventListener('click', btn.click);	
+		}
+	}); */
+	
+	//document.getElementById('btnOpenProject').addEventListener('click', ev => p.dialog.project.open());
+	
+	
+}
+
+function createProjectSelectBox({storageName, hookName, data}){
+	let el = document.getElementById('searchProject');
+	while(el.hasChildNodes()){
+        el.removeChild(el.firstChild);
+    }		
+	for(let item of data){		
+		option = document.createElement('option');
+		option.setAttribute('value', item.projectId);
+		option.textContent = item.projectName;
+		el.appendChild(option);
+	}
+}
+
+
+
 (function(p){
 	
-	p.dialog = {project: null, detail: null, detailInfo: null, tag: null};
+	//p.dialog = {project: null, detail: null, detailInfo: null, tag: null};
 	//p.select = {};
 	
 	/**
 	 *
 	 */
-	const createClickEvent = function(){
+	/* const createClickEvent = function(){
 		
 		// 
 		document.getElementById('btnOpenProject').addEventListener('click', ev => p.dialog.project.open());
 		
-	}
+	} */
 	
 	/**
 	 *
 	 */
-	const createProjectSelectBox = function({storageName, hookName, data}){
+	/* const createProjectSelectBox = function({storageName, hookName, data}){
 		let el = document.getElementById('searchProject');
 		while(el.hasChildNodes()){
             el.removeChild(el.firstChild);
@@ -130,12 +189,12 @@
 			option.textContent = item.projectName;
 			el.appendChild(option);
 		}
-	}
+	} */
 	
 	/**
 	 *
 	 */
-	const storage = new Storage({
+	/* const storage = new Storage({
 		data: [
 			{name:'project', url: '/project/find'},			
 		],
@@ -152,7 +211,7 @@
 			
 			createClickEvent();
 		}
-	});
+	}); */
 	
 	
 	

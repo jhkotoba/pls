@@ -19,9 +19,7 @@ window.Storage = class Storage {
 				.catch(err => console.error('error:', err));
 		}
 		
-		if(Array.isArray(p?.data) === false && typeof p.then === 'function'){
-			p.then();
-		}
+		
 	}
 	
 	

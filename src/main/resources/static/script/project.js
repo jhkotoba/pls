@@ -9,9 +9,8 @@ class Project {
 		this.storage = storage;
 
 		this.#createDialog();
-		this.#createEvent();
+		this.#createEvent();		
 		
-		console.log(`this.storage.get('project'):`, this.storage.get('project'));
 		this.setData(this.storage.get('project'));
 	}
 	

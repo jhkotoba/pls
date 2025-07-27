@@ -61,7 +61,7 @@ window.sGrid = class simpleGrid {
 		}
 	}
 	
-    prependRow = () => this.#createBodyNewRow();   
+    prependRow = () => this.#createBodyNewRow(); 
 
     getData = () => this.data;
 	
